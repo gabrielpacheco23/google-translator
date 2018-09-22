@@ -53,7 +53,9 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 ## translate(sourceText, {from, to})
 ### args
 ```sourceText``` -> [*String*]: Text to be translated
+
 ```from``` -> [*String*]: Language of ```sourceText```, *default* is ```'auto'```
+
 ```to``` -> [*String*]: Language text will be translated to, *default* is ```'en```
 
 ### returns 
