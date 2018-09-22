@@ -59,7 +59,7 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 ```to``` -> [*String*]: Language text will be translated to, *default* is ```'en```
 
 ### returns 
-```_translatedText``` -> (private) [String]: Translated text returned
+```_translatedText``` -> (private) [*String*]: Translated text returned
 
 
 ## translateAndPrint(sourceText, {from, to})
