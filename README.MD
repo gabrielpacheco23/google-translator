@@ -21,7 +21,7 @@ void main() {
   translator.translate(input, from: 'ru', to: 'en').then((s) {
     print(s);
   });
-  /// prints 'Hello. Are you okay?'
+  /// prints Hello. Are you okay?
 }
 ```
 
