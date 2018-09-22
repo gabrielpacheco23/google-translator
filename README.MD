@@ -25,7 +25,7 @@ void main() {
 }
 ```
 
-Using ** translate ** method passing the args ** from ** and ** to ** designates the
+Using **translate** method passing the args **from** and **to** designates the
 language from text you're typing and the language to be translated
 ``` 
 translator.translate("I love Brazil!", from: 'en' to: 'pt').then((s) {
@@ -44,7 +44,7 @@ translator.translate("Hello", to: 'es').then((s) => print(s));
 /// prints Hola
 ```
 
-There is also ** translateAndPrint ** method that prints directly
+There is also **translateAndPrint** method that prints directly
 ```
 translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 // prints 这意味着用中文'测试'
@@ -52,7 +52,7 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 
 # API 
 ## translate(sourceText, {from, to})
-#### args
+### args
 ```sourceText``` -> [String]: Text to be translated
 ```from``` -> [String]: Language of ```sourceText```, default is ```'auto'```
 ```to``` -> [String]: Language text will be translated to, default is ```'en```
