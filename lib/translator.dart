@@ -106,7 +106,7 @@ class GoogleTranslator {
     }
   }
 
-  /// Reformat: replace non-text-used regexps
+  /// Replace not used in translated text regexps
   String reformat(String str, String sourceText, String isoCode) {
     String res = str
         .replaceAll(isoCode, "")
