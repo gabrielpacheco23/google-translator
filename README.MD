@@ -8,7 +8,7 @@ dependencies:
 	google-translator: ^0.0.1
 
 ```
-Enter ``` pub get ``` to get the dependencies
+Enter ```pub get``` to get the dependencies
 
 # Usage 
 
