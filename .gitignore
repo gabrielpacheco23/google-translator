@@ -13,5 +13,5 @@ pubspec.lock
 doc/api/
 
 # main
-
 bin/main.dart
+.idea
