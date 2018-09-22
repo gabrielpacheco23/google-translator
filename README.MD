@@ -8,7 +8,8 @@ dependencies:
 	translator: ^0.0.1
 
 ```
-Enter ```pub get``` to get the dependencies
+then enter ```pub get``` to get the dependencies.
+
 
 # Usage 
 
