@@ -3,7 +3,6 @@ version: 0.0.1
 description: A sample command-line application
 dependencies:
   http: ^0.11.3+17
-  diacritic: ^0.1.0
 
 dev_dependencies:
   test: any
