@@ -52,9 +52,9 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 # API 
 ## translate(sourceText, {from, to})
 ### args
-```sourceText``` -> [String]: Text to be translated
-```from``` -> [String]: Language of ```sourceText```, default is ```'auto'```
-```to``` -> [String]: Language text will be translated to, default is ```'en```
+```sourceText``` -> [*String*]: Text to be translated
+```from``` -> [*String*]: Language of ```sourceText```, *default* is ```'auto'```
+```to``` -> [*String*]: Language text will be translated to, *default* is ```'en```
 
 ### returns 
 ```_translatedText``` -> (private) [String]: Translated text returned
