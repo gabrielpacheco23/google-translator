@@ -5,7 +5,7 @@ Free Google Translate API for Dart
 Add this to your pubspec.yaml file:
 ```
 dependencies:
-	google-translator: ^0.0.1
+	translator: ^0.0.1
 
 ```
 Enter ```pub get``` to get the dependencies
