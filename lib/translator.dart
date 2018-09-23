@@ -6,6 +6,7 @@ import 'package:translator/langs/languages.dart';
 import './tokens/token_provider_interface.dart';
 import './tokens/google_token_gen.dart';
 
+
 ///
 /// This library is a Dart implementation of Free Google Translate API
 /// based on JavaScript and PHP Free Google Translate APIs
@@ -34,11 +35,12 @@ class GoogleTranslator {
   ///
   /// [params] {to} -> Language to be translated to [String] default = 'en' (english)
   ///
-  Future<String> translate(String sourceText, {String from = 'auto', String to = 'en'}) async {
-
+  Future<String> translate(String sourceText,
+      {String from = 'auto', String to = 'en'}) async {
     /// Assertion for supported language
     [from, to].forEach((language) {
-      assert(Languages.isSupported(language), "\n\/E:\t\tError -> Not a supported language: '$language'");
+      assert(Languages.isSupported(language),
+          "\n\/E:\t\tError -> Not a supported language: '$language'");
     });
 
     /// New tokenProvider -> uses GoogleTokenGenerator for free API
@@ -91,15 +93,13 @@ class GoogleTranslator {
       String res = "";
       int i = 0;
       t.forEach((x) {
-        if (i.isEven)
-          res += x;
+        if (i.isEven) res += x;
         i++;
       });
 
       /// Reformats and returns translated text
       _translatedText = reformat(res, sourceText, _fromLanguageCode);
       return _translatedText;
-
     } on Error catch (err) {
       print("Error: " + err.toString() + "\n" + err.stackTrace.toString());
       return null;
@@ -111,12 +111,13 @@ class GoogleTranslator {
     String res = str
         .replaceAll(isoCode, "")
         .replaceAll(r'"', "")
-        .replaceAll(r'[[\\(^null$)]',  "");
+        .replaceAll(r'[[\\(^null$)]', "");
     return res;
   }
 
   /// Translate and prints source text directly
-  Future<String> translateAndPrint(String text, {String from = 'auto', String to = 'en'}) {
+  Future<String> translateAndPrint(String text,
+      {String from = 'auto', String to = 'en'}) {
     return translate(text, from: from, to: to).then((s) {
       print(s);
     });

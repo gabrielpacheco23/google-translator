@@ -29,22 +29,22 @@ void main() {
       url = _baseUrl + '?' + str;
       var data = await http.get(url);
       print(data);
-    } on Error catch (err){
+    } on Error catch (err) {
       print("Test failed.");
       return err.stackTrace;
     }
-
   });
 
   test("It translates and prints, right? The Future instance, tho.", () {
     var translator = GoogleTranslator();
-    var input = "Olá meu excellentíssimo amigo. Como você está? Exceções são comuns, né?";
+    var input =
+        "Olá meu excellentíssimo amigo. Como você está? Exceções são comuns, né?";
     try {
       translator.translate(input, from: 'es', to: 'ru').then((s) {
         print(s);
       });
       translator.translateAndPrint("Testing", to: 'pt');
-    } on Error catch (err){
+    } on Error catch (err) {
       print("Test failed.");
       return err.stackTrace;
     }

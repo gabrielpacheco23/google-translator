@@ -110,21 +110,17 @@ class Languages {
   static String getCode(String desiredLang) {
     var result = null;
     _langs.forEach((key, value) {
-      if(value == desiredLang)
-        result = key;
+      if (value == desiredLang) result = key;
 
-      if(key == desiredLang)
-        result = key;
+      if (key == desiredLang) result = key;
     });
-    if(result != null)
-      return result;
+    if (result != null) return result;
     return 'auto';
   }
 
   static bool isSupported(String desiredLang) {
     desiredLang = desiredLang.toLowerCase();
-    if(desiredLang is String && _langs.containsKey(desiredLang))
-      return true;
+    if (desiredLang is String && _langs.containsKey(desiredLang)) return true;
     return false;
   }
 }

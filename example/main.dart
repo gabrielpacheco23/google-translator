@@ -7,7 +7,7 @@ void main() {
   String input = "Здравствуйте. Ты в порядке?";
 
   translator.translate(input, to: 'en')
-      .then((s) => print("Source: " + input + "\n"
+      .then((s) =>  print("Source: " + input + "\n"
       "Translated: " + s + "\n"));
 
 

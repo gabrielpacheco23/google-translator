@@ -26,18 +26,19 @@ class GoogleTokenGenerator implements TokenProviderInterface {
       var g = a.toString().codeUnitAt(f);
       if (128 > g) {
         d.add(g);
-      }
-      else {
+      } else {
         if (2048 > g) {
-          d.add(g>>6 | 192);
-        }
-        else {
-          if (55296 == (g & 64512) && f + 1 < a.toString().length && 56320 == (a.toString().codeUnitAt(f + 1) & 64512)) {
-            g = 65536 + ((g & 1023) << 10) + (a.toString().codeUnitAt(++f) & 1023);
+          d.add(g >> 6 | 192);
+        } else {
+          if (55296 == (g & 64512) &&
+              f + 1 < a.toString().length &&
+              56320 == (a.toString().codeUnitAt(f + 1) & 64512)) {
+            g = 65536 +
+                ((g & 1023) << 10) +
+                (a.toString().codeUnitAt(++f) & 1023);
             d.add(g >> 18 | 240);
             d.add(g >> 12 & 63 | 128);
-          }
-          else {
+          } else {
             d.add(g >> 12 | 224);
           }
           d.add(g >> 6 & 63 | 128);
@@ -47,10 +48,10 @@ class GoogleTokenGenerator implements TokenProviderInterface {
     }
     a = b;
     for (int e = 0; e < d.length; e++) {
-      if(a is String) {
+      if (a is String) {
         a = int.parse(a) + d[e];
-      }
-      else a += d[e];
+      } else
+        a += d[e];
       a = wr(a, '+-a^+6');
     }
     a = wr(a, '+-3^+b+-f');
@@ -73,12 +74,13 @@ class GoogleTokenGenerator implements TokenProviderInterface {
       for (var c = 0; c < b.toString().length - 2; c += 3) {
         d = b[c + 2];
         d = 'a'.codeUnitAt(0) <= d.toString().codeUnitAt(0)
-            ? (d[0].toString().codeUnitAt(0)) - 87 : int.parse(d);
+            ? (d[0].toString().codeUnitAt(0)) - 87
+            : int.parse(d);
         d = '+' == b[c + 1] ? unsignedRightShift(a, d) : a << d;
         a = '+' == b[c] ? (a + (d as int) & 4294967295) : a ^ d;
       }
       return a;
-    } on Error catch(e) {
+    } on Error catch (e) {
       print(e.toString());
       return null;
     }
