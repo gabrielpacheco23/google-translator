@@ -2,6 +2,7 @@
 Free Google Translate API for Dart
 
 See it in pub: https://pub.dartlang.org/packages/translator
+
 and in GitHub: https://github.com/gabrielpacheco23/google-translator
 
 # Usage 
