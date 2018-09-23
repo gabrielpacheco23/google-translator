@@ -11,10 +11,10 @@ void main() {
       "Translated: " + s + "\n"));
 
 
+  // for countries that default base URL doesn't work
   translator.baseUrl = "https://translate.google.cn/translate_a/single";
   translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn'); 
   //prints 这意味着用中文'测试'
-  
-  print()
+
 
 }

@@ -1,7 +1,7 @@
 # translator
 Free Google Translate API for Dart
 
-See it in pub: https://pub.dartlang.org/packages/translator <br/>
+See it in pub: https://pub.dartlang.org/packages/translator \
 and GitHub: https://github.com/gabrielpacheco23/google-translator
 
 # Usage 
@@ -44,22 +44,6 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 
 # API
 For full API docs take a look at https://pub.dartlang.org/documentation/translator/latest/
-## translate(sourceText, {from, to})
-### args
-```sourceText``` -> *String*: Text to be translated. <br/>
-```from``` -> *String*: Language of ```sourceText```, *default* is ```'auto'```. <br/>
-```to``` -> *String*: Language text will be translated to, *default* is ```'en'```.
-
-### returns 
-```_translatedText``` -> (*private*) *String*: Translated text returned
-
-
-## translateAndPrint(sourceText, {from, to})
-### args
-Same as ```translate(...)```
-
-### returns
-prints the translated text directly
 
 
 # License

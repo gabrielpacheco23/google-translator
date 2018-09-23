@@ -6,7 +6,6 @@ import 'package:translator/langs/languages.dart';
 import './tokens/token_provider_interface.dart';
 import './tokens/google_token_gen.dart';
 
-
 ///
 /// This library is a Dart implementation of Free Google Translate API
 /// based on JavaScript and PHP Free Google Translate APIs
