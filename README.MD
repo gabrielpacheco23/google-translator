@@ -1,15 +1,6 @@
 # google-translator
 Free Google Translate API for Dart
-
-# Install
-Add this to your pubspec.yaml file:
-```
-dependencies:
-	translator: ^0.0.1
-
-```
-then enter ```pub get``` to get the dependencies.
-
+See it in pub: https://pub.dartlang.org/packages/translator
 
 # Usage 
 
@@ -35,7 +26,7 @@ translator.translate("I love Brazil!", from: 'en' to: 'pt').then((s) {
   /// prints Eu amo Brasil!
 ```
 
-or you can omit from language and it'll use ** 'auto' ** keyword
+or you can omit from language and it'll use ```auto``` keyword
 that auto-detect the language of source text
 
 ```dart
@@ -52,14 +43,12 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 # API 
 ## translate(sourceText, {from, to})
 ### args
-```sourceText``` -> [*String*]: Text to be translated
-
-```from``` -> [*String*]: Language of ```sourceText```, *default* is ```'auto'```
-
-```to``` -> [*String*]: Language text will be translated to, *default* is ```'en```
+-	sourceText -> [*String*]: Text to be translated.
+-	from -> [*String*]: Language of ```sourceText```, *default* is ```'auto'```.
+-	to -> [*String*]: Language text will be translated to, *default* is ```'en```.
 
 ### returns 
-```_translatedText``` -> (*private*) [*String*]: Translated text returned
+- 	```_translatedText``` -> (*private*) [*String*]: Translated text returned
 
 
 ## translateAndPrint(sourceText, {from, to})

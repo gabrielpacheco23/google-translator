@@ -1,5 +1,5 @@
 name: translator
-version: 0.0.1
+version: 0.0.9
 description: A free Google Translate API for Dart
 author: Gabriel N. Pacheco <gabrielpacheco23@live.com>
 homepage: https://github.com/gabrielpacheco23/google-translator
@@ -10,4 +10,4 @@ dev_dependencies:
   test: any
 
 environment:
-    sdk: ">=1.8.0 <2.0.0"
+    sdk: "2.0.0"
