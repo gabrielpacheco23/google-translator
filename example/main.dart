@@ -12,6 +12,9 @@ void main() {
 
 
   translator.baseUrl = "https://translate.google.cn/translate_a/single";
-  translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn'); //prints 这意味着用中文'测试'
+  translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn'); 
+  //prints 这意味着用中文'测试'
+  
+  print()
 
 }

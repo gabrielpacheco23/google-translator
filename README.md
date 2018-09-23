@@ -2,6 +2,7 @@
 Free Google Translate API for Dart
 
 See it in pub: https://pub.dartlang.org/packages/translator
+and in GitHub: https://github.com/gabrielpacheco23/google-translator
 
 # Usage 
 
@@ -41,7 +42,8 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 // prints 这意味着用中文'测试'
 ```
 
-# API 
+# API
+For full API docs take a look at https://pub.dartlang.org/documentation/translator/latest/
 ## translate(sourceText, {from, to})
 ### args
 -	sourceText -> [*String*]: Text to be translated.

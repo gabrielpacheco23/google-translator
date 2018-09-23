@@ -1,6 +1,6 @@
 name: translator
 version: 0.0.10
-description: A free and unlimited Google Translate API for Dart. You can use it for translate strings and text for educational purpose, for other kinds of usage consider using Cloud API. Google Translate limits the input text to 5000 characters.
+description: A free and unlimited Google Translate API for Dart. You can use it for translate strings and text for educational purpose.
 author: Gabriel N. Pacheco <gabrielpacheco23@live.com>
 homepage: https://github.com/gabrielpacheco23/google-translator
 dependencies:
