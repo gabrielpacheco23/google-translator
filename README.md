@@ -25,7 +25,7 @@ language from text you're typing and the language to be translated
 translator.translate("I love Brazil!", from: 'en' to: 'pt').then((s) {
     print(s);
   }); 
-  /// prints Eu amo Brasil!
+  /// prints Eu amo o Brasil!
 ```
 
 or you can omit from language and it'll use ```auto``` key

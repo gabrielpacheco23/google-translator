@@ -26,12 +26,9 @@ class GoogleTranslator {
   String _fromLanguageCode;
 
   /// Main async translate
-  /// [method] returns [Future] -> [String] translated text
-  ///
-  /// [params] sourceText -> Source text to be translated [String]
-  ///
-  /// [params] {from} -> Language source text from [String] default = 'auto'
-  ///
+  /// [method] returns [Future] -> [String] translated text \
+  /// [params] sourceText -> Source text to be translated [String] \
+  /// [params] {from} -> Language source text from [String] default = 'auto' \
   /// [params] {to} -> Language to be translated to [String] default = 'en' (english)
   ///
   Future<String> translate(String sourceText,
@@ -44,7 +41,6 @@ class GoogleTranslator {
 
     /// New tokenProvider -> uses GoogleTokenGenerator for free API
     tokenProvider = GoogleTokenGenerator();
-
     try {
       /// Parameters appended to url string
       /// sl -> source language
@@ -115,9 +111,8 @@ class GoogleTranslator {
   }
 
   /// Translate and prints source text directly
-  Future<String> translateAndPrint(String text,
-      {String from = 'auto', String to = 'en'}) {
-    return translate(text, from: from, to: to).then((s) {
+  translateAndPrint(String text, {String from = 'auto', String to = 'en'}) {
+    translate(text, from: from, to: to).then((s) {
       print(s);
     });
   }
