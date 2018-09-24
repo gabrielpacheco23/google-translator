@@ -15,9 +15,14 @@ void main() {
   translator.translate(input, from: 'ru', to: 'en').then((s) {
     print(s);
   });
-  /// prints Hello. Are you okay?
+  // prints Hello. Are you okay?
+  
+  var translation = await translator.translate("Dart is very cool!", to: 'pl');
+  print(translation);
+  // prints Dart jest bardzo fajny!
 }
 ```
+&nbsp;
 
 Using **translate** method passing the args **from** and **to** designates the
 language from text you're typing and the language to be translated
@@ -25,22 +30,33 @@ language from text you're typing and the language to be translated
 translator.translate("I love Brazil!", from: 'en' to: 'pt').then((s) {
     print(s);
   }); 
-  /// prints Eu amo o Brasil!
+  // prints Eu amo o Brasil!
 ```
+&nbsp;
 
 or you can omit from language and it'll use ```auto``` key
 that auto-detect the language of source text
 
 ```dart
 translator.translate("Hello", to: 'es').then((s) => print(s));
-/// prints Hola
+// prints Hola
 ```
+&nbsp;
 
-There is also **translateAndPrint** method that prints directly
+and also pass the value to a var using ```await```
+```dart
+var translation = await translator.translate("I would buy a car, if I had money.", from: 'en', to: 'it');
+  print(translation);
+// prints Vorrei comprare una macchina, se avessi i soldi.
+```
+&nbsp;
+
+There is **translateAndPrint** method that prints directly
 ```dart
 translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 // prints 这意味着用中文'测试'
 ```
+&nbsp;
 
 # API
 For full API docs take a look at https://pub.dartlang.org/documentation/translator/latest/

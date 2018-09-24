@@ -49,4 +49,9 @@ void main() {
       return err.stackTrace;
     }
   });
+
+  test("Get the translation, man.", () async {
+    var input = "The wisest go to the right";
+    expect(await GoogleTranslator().translate(input, to: 'pt'), equals("O mais sábio vai para a direita"));
+  });
 }
