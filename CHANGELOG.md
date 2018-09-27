@@ -1,5 +1,5 @@
 # Releases
-# 0.1.0+1
+# 0.1.0+2
 - Initial open source release.
 - Usage and example updated.
 

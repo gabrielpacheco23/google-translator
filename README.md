@@ -7,7 +7,7 @@ and GitHub: https://github.com/gabrielpacheco23/google-translator
 # Usage 
 
 ```dart
-void main() {
+void main() async {
   GoogleTranslator translator = new GoogleTranslator();
 
   String input = "Здравствуйте. Ты в порядке?";
