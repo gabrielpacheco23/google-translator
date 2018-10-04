@@ -18,6 +18,5 @@ void main() async {
 
   var translation = await translator.translate("I would buy a car, if I had money.", from: 'en', to: 'it');
   print("translation: " + translation);
-
-
+  // prints translation: Vorrei comprare una macchina, se avessi i soldi.
 }

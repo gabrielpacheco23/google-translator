@@ -6,10 +6,6 @@ import 'package:translator/src/langs/languages.dart';
 import 'src/./tokens/token_provider_interface.dart';
 import 'src/./tokens/google_token_gen.dart';
 
-export 'src/tokens/google_token_gen.dart';
-export 'src/langs/languages.dart';
-export 'src/tokens/token_provider_interface.dart';
-
 ///
 /// This library is a Dart implementation of Free Google Translate API
 /// based on JavaScript and PHP Free Google Translate APIs
@@ -19,9 +15,9 @@ export 'src/tokens/token_provider_interface.dart';
 class GoogleTranslator {
   GoogleTranslator();
 
-  /// [vars] _baseUrl -> API endpoint used to get translations
-  /// [vars] _translatedText -> Return string translated source text
-  /// [vars] _fromLanguageCode -> Source 'from' language ISO code for reformating response string
+  /// _baseUrl -> API endpoint used to get translations
+  /// _translatedText -> Return [String] translated source text
+  /// _fromLanguageCode -> Source 'from' language ISO code for reformating response [String]
   ///
   var _baseUrl = "https://translate.googleapis.com/translate_a/single";
   TokenProviderInterface tokenProvider;
@@ -30,10 +26,10 @@ class GoogleTranslator {
   String _fromLanguageCode;
 
   /// Main async translate
-  /// [method] returns [Future] -> [String] translated text \
-  /// [params] sourceText -> Source text to be translated [String] \
-  /// [params] {from} -> Language source text from [String] default = 'auto' \
-  /// [params] {to} -> Language to be translated to [String] default = 'en' (english)
+  /// method: returns [Future] -> [String] translated text \
+  /// param: sourceText -> Source text to be translated [String] \
+  /// param: {from} -> Language source text from [String] default = 'auto' \
+  /// param: {to} -> Language to be translated to [String] default = 'en' (english)
   ///
   Future<String> translate(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
