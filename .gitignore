@@ -15,3 +15,4 @@ doc/api/
 # main
 bin/main.dart
 .idea
+.vscode

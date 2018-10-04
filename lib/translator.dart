@@ -2,9 +2,13 @@ library translator;
 
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:translator/langs/languages.dart';
-import './tokens/token_provider_interface.dart';
-import './tokens/google_token_gen.dart';
+import 'package:translator/src/langs/languages.dart';
+import 'src/./tokens/token_provider_interface.dart';
+import 'src/./tokens/google_token_gen.dart';
+
+export 'src/tokens/google_token_gen.dart';
+export 'src/langs/languages.dart';
+export 'src/tokens/token_provider_interface.dart';
 
 ///
 /// This library is a Dart implementation of Free Google Translate API

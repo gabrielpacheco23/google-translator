@@ -1,4 +1,8 @@
 # Releases
+# 0.1.0+3
+- Support < 2.0.0
+- Wrapped files
+
 # 0.1.0+2
 - Initial open source release.
 - Usage and example updated.

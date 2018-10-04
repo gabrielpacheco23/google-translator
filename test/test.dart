@@ -1,5 +1,5 @@
 import "package:test/test.dart";
-import 'package:translator/google_translate.dart';
+import 'package:translator/translator.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
