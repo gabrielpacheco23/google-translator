@@ -118,5 +118,7 @@ class GoogleTranslator {
   }
 
   /// Sets base URL for countries that default url doesn't work
-  void set baseUrl(var base) => _baseUrl = base;
+  void set baseUrl(var base) => _baseUrl = base;  
 }
+
+

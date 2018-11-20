@@ -1,4 +1,6 @@
 # Releases
+# 0.1.0+5
+- Support http ^0.12.0
 # 0.1.0+4
 - Support < 2.0.0
 - Wrapped files
