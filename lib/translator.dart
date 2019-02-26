@@ -106,7 +106,8 @@ class GoogleTranslator {
     String res = str
         .replaceAll(isoCode, "")
         .replaceAll(r'"', "")
-        .replaceAll(r'[[\\(^null$)]', "");
+        .replaceAll(r'[[\\(^null$)]', "")
+        .replaceAll(r'\n', "\n");
     return res;
   }
 
