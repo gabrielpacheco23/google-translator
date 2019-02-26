@@ -27,7 +27,7 @@ void main() async {
 Using **translate** method passing the args **from** and **to** designates the
 language from text you're typing and the language to be translated
 ``` dart
-translator.translate("I love Brazil!", from: 'en' to: 'pt').then((s) {
+translator.translate("I love Brazil!", from: 'en', to: 'pt').then((s) {
     print(s);
   }); 
   // prints Eu amo o Brasil!
