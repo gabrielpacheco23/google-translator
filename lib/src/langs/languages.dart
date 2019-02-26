@@ -108,7 +108,7 @@ class Languages {
   };
 
   static String getCode(String desiredLang) {
-    var result = null;
+    var result;
     _langs.forEach((key, value) {
       if (value == desiredLang) result = key;
 

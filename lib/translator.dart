@@ -72,6 +72,10 @@ class GoogleTranslator {
 
       /// (GET) Fetch and parse data from Google Transl. API
       var data = await http.get(url);
+      if(data.statusCode != 200) {
+        print(data.statusCode);
+        return null;
+      }
       var t = [];
 
       /// Separate translated text from data
