@@ -1,5 +1,5 @@
 # Releases
-# 0.1.0+7
+# 0.1.0+8
 - Fixed newline bug
 # 0.1.0+5
 - Support http ^0.12.0

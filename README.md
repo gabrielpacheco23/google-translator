@@ -8,9 +8,9 @@ and GitHub: https://github.com/gabrielpacheco23/google-translator
 
 ```dart
 void main() async {
-  GoogleTranslator translator = new GoogleTranslator();
+  final translator = new GoogleTranslator();
 
-  String input = "Здравствуйте. Ты в порядке?";
+  final input = "Здравствуйте. Ты в порядке?";
 
   translator.translate(input, from: 'ru', to: 'en').then((s) {
     print(s);
@@ -34,8 +34,7 @@ translator.translate("I love Brazil!", from: 'en', to: 'pt').then((s) {
 ```
 &nbsp;
 
-or you can omit from language and it'll use ```auto``` key
-that auto-detect the language of source text
+or you can omit from language and it'll auto-detect the language of source text
 
 ```dart
 translator.translate("Hello", to: 'es').then((s) => print(s));
@@ -65,7 +64,7 @@ For full API docs take a look at https://pub.dartlang.org/documentation/translat
 # License
 MIT License
 
-Copyright © 2018 Gabriel Pacheco
+Copyright © 2019 Gabriel Pacheco
 
 
 # Disclaimer
