@@ -76,7 +76,7 @@ class GoogleTranslator {
       String res = "";
       int i = 0;
       t.forEach((x) {
-        if (i.isEven) res += x;
+        if (i % 4 == 0) res += x;
         i++;
       });
 
