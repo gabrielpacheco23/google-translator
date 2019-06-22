@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert' show jsonDecode;
 import 'package:http/http.dart' as http;
 import 'package:translator/src/langs/languages.dart';
 import './tokens/token_provider_interface.dart';
@@ -15,9 +16,6 @@ class GoogleTranslator {
 
   var _baseUrl = "https://translate.googleapis.com/translate_a/single";
   TokenProviderInterface tokenProvider;
-
-  String _translatedText;
-  String _fromLanguageCode;
 
   /// Translates texts from specified language to another
   Future<String> translate(String sourceText,
@@ -55,47 +53,24 @@ class GoogleTranslator {
       String url = _baseUrl + '?' + str;
 
       /// Fetch and parse data from Google Transl. API
-      var data = await http.get(url);
+      final data = await http.get(url);
       if (data.statusCode != 200) {
         print(data.statusCode);
         return null;
       }
-      var t = [];
 
-      /// Separate translated text from data
-      var regex = RegExp(r'\B"[^"]*"\B');
-      Iterable<Match> matches = regex.allMatches(data.body);
-      matches.forEach((match) {
-        t.add(match.group(0));
-      });
+      final jsonData = jsonDecode(data.body);
 
-      /// Get source text language ISO Code
-      _fromLanguageCode = t[t.length - 1];
+      final sb = StringBuffer();
+      for (int c = 0; c < jsonData[0].length; c++) {
+        sb.write(jsonData[0][c][0]);
+      }
 
-      /// Reorganize translated strings
-      String res = "";
-      int i = 0;
-      t.forEach((x) {
-        if (i.isEven) res += x;
-        i++;
-      });
-
-      /// Reformats and returns translated text
-      _translatedText = _reformat(res, sourceText, _fromLanguageCode);
-      return _translatedText;
+      return sb.toString();
     } on Error catch (err) {
       print("Error: " + err.toString() + "\n" + err.stackTrace.toString());
       return null;
     }
-  }
-
-  String _reformat(String str, String sourceText, String isoCode) {
-    String res = str
-        .replaceAll(isoCode, "")
-        .replaceAll(r'"', "")
-        .replaceAll(r'[[\\(^null$)]', "")
-        .replaceAll(r'\n', "\n");
-    return res;
   }
 
   /// Translates and prints directly

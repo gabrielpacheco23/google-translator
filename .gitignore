@@ -20,3 +20,6 @@ translator.iml
 
 # uml
 uml.txt
+
+# backup
+lib/src/backup_gt.dart

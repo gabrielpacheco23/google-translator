@@ -1,4 +1,6 @@
-#Releases
+# Releases
+# 0.1.2
+- Fixed bug with Google API changes
 # 0.1.1
 - Fixed newline bug
 # 0.1.0+5
