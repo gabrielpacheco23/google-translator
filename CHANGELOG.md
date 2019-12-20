@@ -1,4 +1,6 @@
 # Releases
+# 0.1.3
+- Fixed 'Pujanbi' language code typo
 # 0.1.2
 - Fixed bug with Google API changes
 # 0.1.1

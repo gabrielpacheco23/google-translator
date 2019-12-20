@@ -10,19 +10,19 @@ import './token_provider_interface.dart';
 class GoogleTokenGenerator implements TokenProviderInterface {
   /// Generate and return a token
   @override
-  generateToken(String text) {
+  String generateToken(String text) {
     return tokenGen(text);
   }
 
   /// Generate a valid Google Translate request token
   /// [a] is the text to translate
-  tokenGen(dynamic a) {
+  String tokenGen(dynamic a) {
     dynamic tkk = TKK();
     dynamic b = tkk[0];
 
-    List d = List();
+    var d = []; //List();
 
-    for (int f = 0; f < a.toString().length; f++) {
+    for (var f = 0; f < a.toString().length; f++) {
       var g = a.toString().codeUnitAt(f);
       if (128 > g) {
         d.add(g);

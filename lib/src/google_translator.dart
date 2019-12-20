@@ -14,7 +14,7 @@ import './tokens/google_token_gen.dart';
 class GoogleTranslator {
   GoogleTranslator();
 
-  var _baseUrl = "https://translate.googleapis.com/translate_a/single";
+  var _baseUrl = 'https://translate.googleapis.com/translate_a/single';
   TokenProviderInterface tokenProvider;
 
   /// Translates texts from specified language to another
@@ -41,13 +41,13 @@ class GoogleTranslator {
       };
 
       /// Append parameters in url
-      String str = "";
+      var str = '';
       parameters.forEach((key, value) {
         if (key == 'q') {
-          str += (key + "=" + value);
+          str += (key + '=' + value);
           return;
         }
-        str += (key + "=" + value + "&");
+        str += (key + '=' + value + '&');
       });
 
       String url = _baseUrl + '?' + str;
