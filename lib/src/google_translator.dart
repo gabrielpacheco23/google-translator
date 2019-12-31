@@ -44,16 +44,16 @@ class GoogleTranslator {
       var str = '';
       parameters.forEach((key, value) {
         if (key == 'q') {
-          str += (key + '=' + value);
+          str += (key + '=' + Uri.encodeComponent(value));
           return;
         }
-        str += (key + '=' + value + '&');
+        str += (key + '=' + Uri.encodeComponent(value) + '&');
       });
 
       String url = _baseUrl + '?' + str;
 
       /// Fetch and parse data from Google Transl. API
-      final data = await http.get(Uri.encodeFull(url));
+      final data = await http.get(url);
       if (data.statusCode != 200) {
         print(data.statusCode);
         return null;
