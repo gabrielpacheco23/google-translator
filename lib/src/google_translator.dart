@@ -53,7 +53,7 @@ class GoogleTranslator {
       String url = _baseUrl + '?' + str;
 
       /// Fetch and parse data from Google Transl. API
-      final data = await http.get(url);
+      final data = await http.get(Uri.encodeFull(url));
       if (data.statusCode != 200) {
         print(data.statusCode);
         return null;
