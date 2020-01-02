@@ -53,9 +53,9 @@ var translation = await translator.translate("I would buy a car, if I had money.
 ```
 &nbsp;
 
-You can use the extension method directly on the string too
+You can use the ***extension method*** directly on the string too
 ```dart
-  print(await "example".translate(to: 'pt');
+  print(await "example".translate(to: 'pt'));
 // prints exemplo
 ```
 &nbsp;
