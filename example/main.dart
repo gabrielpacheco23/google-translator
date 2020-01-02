@@ -1,4 +1,5 @@
 import 'package:translator/translator.dart';
+import 'package:translator/src/extension.dart';
 
 void main() async {
   final translator = GoogleTranslator();
@@ -11,6 +12,9 @@ void main() async {
           "Translated: " +
       s +
       "\n"));
+
+  // You can also call the extension method directly on the input
+  print('Translated: ${await input.translate(to: 'en')}');
 
   // for countries that default base URL doesn't work
   translator.baseUrl = "https://translate.google.cn/translate_a/single";

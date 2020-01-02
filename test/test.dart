@@ -1,6 +1,7 @@
 import "package:test/test.dart";
 import 'package:translator/translator.dart';
 import 'package:http/http.dart' as http;
+import 'package:translator/src/extension.dart';
 
 void main() {
   test("Conection test: Is Google Translate API working?", () async {
@@ -54,4 +55,11 @@ void main() {
     var input = "The wisest go to the right";
     expect(await GoogleTranslator().translate(input, to: 'pt'), equals("O mais sábio vai para a direita"));
   });
+
+  test("Get the translation - using the extension method", () async {
+    var input = "The wisest go to the right";
+
+    expect(await input.translate(to: 'pt'), equals("O mais sábio vai para a direita"));
+  });
+
 }
