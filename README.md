@@ -20,6 +20,9 @@ void main() async {
   var translation = await translator.translate("Dart is very cool!", to: 'pl');
   print(translation);
   // prints Dart jest bardzo fajny!
+
+  print(await "example".translate(to: 'pt'));
+  // prints exemplo
 }
 ```
 &nbsp;
@@ -47,6 +50,13 @@ and also pass the value to a var using ```await```
 var translation = await translator.translate("I would buy a car, if I had money.", from: 'en', to: 'it');
   print(translation);
 // prints Vorrei comprare una macchina, se avessi i soldi.
+```
+&nbsp;
+
+You can use the extension method directly on the string too
+```dart
+  print(await "example".translate(to: 'pt');
+// prints exemplo
 ```
 &nbsp;
 

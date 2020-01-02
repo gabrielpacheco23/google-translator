@@ -1,4 +1,8 @@
 # Releases
+# 0.1.4
+- Added extension method
+- Fixed url encoding bug
+- Upgraded mininum required Dart version (2.6)
 # 0.1.3
 - Fixed 'Pujanbi' language code typo
 # 0.1.2
