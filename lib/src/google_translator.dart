@@ -44,10 +44,10 @@ class GoogleTranslator {
       var str = '';
       parameters.forEach((key, value) {
         if (key == 'q') {
-          str += (key + '=' + value);
+          str += (key + '=' + Uri.encodeComponent(value));
           return;
         }
-        str += (key + '=' + value + '&');
+        str += (key + '=' + Uri.encodeComponent(value) + '&');
       });
 
       String url = _baseUrl + '?' + str;
