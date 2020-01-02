@@ -50,7 +50,7 @@ class GoogleTranslator {
         str += (key + '=' + Uri.encodeComponent(value) + '&');
       });
 
-      String url = _baseUrl + '?' + str;
+      var url = _baseUrl + '?' + str;
 
       /// Fetch and parse data from Google Transl. API
       final data = await http.get(url);
@@ -62,19 +62,20 @@ class GoogleTranslator {
       final jsonData = jsonDecode(data.body);
 
       final sb = StringBuffer();
-      for (int c = 0; c < jsonData[0].length; c++) {
+      for (var c = 0; c < jsonData[0].length; c++) {
         sb.write(jsonData[0][c][0]);
       }
 
       return sb.toString();
     } on Error catch (err) {
-      print("Error: " + err.toString() + "\n" + err.stackTrace.toString());
+      print('Error: $err\n${err.stackTrace}');
       return null;
     }
   }
 
   /// Translates and prints directly
-  translateAndPrint(String text, {String from = 'auto', String to = 'en'}) {
+  void translateAndPrint(String text,
+      {String from = 'auto', String to = 'en'}) {
     translate(text, from: from, to: to).then((s) {
       print(s);
     });
