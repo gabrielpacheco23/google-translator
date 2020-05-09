@@ -12,8 +12,19 @@ import './tokens/google_token_gen.dart';
 /// [author] Gabriel N. Pacheco.
 ///
 class GoogleTranslator {
-  GoogleTranslator();
+  /// use memory cache?
+  final bool useCache;
+  final ClientType client;
 
+  /// null or 0 for cache all strings
+  final int maxLengthCache;
+  GoogleTranslator({
+    this.useCache = true,
+    this.maxLengthCache,
+    this.client = ClientType.siteGT,
+  });
+
+  final _cache = Map<String, String>();
   var _baseUrl = 'https://translate.googleapis.com/translate_a/single';
   TokenProviderInterface tokenProvider;
 
@@ -25,12 +36,16 @@ class GoogleTranslator {
       assert(Languages.isSupported(language),
           "\n\/E:\t\tError -> Not a supported language: '$language'");
     });
+    final key = '$from$to$sourceText';
+    if (useCache == true && _cache.containsKey('$from$to$sourceText')) {
+      return _cache[key];
+    }
 
     /// New tokenProvider -> uses GoogleTokenGenerator for free API
     tokenProvider = GoogleTokenGenerator();
     try {
       var parameters = {
-        'client': 't',
+        'client': client == ClientType.siteGT ? 't' : 'gtx',
         'sl': from,
         'tl': to,
         'dt': 't',
@@ -44,13 +59,13 @@ class GoogleTranslator {
       var str = '';
       parameters.forEach((key, value) {
         if (key == 'q') {
-          str += (key + '=' + Uri.encodeComponent(value));
+          str += ('$key=${Uri.encodeComponent(value)}');
           return;
         }
-        str += (key + '=' + Uri.encodeComponent(value) + '&');
+        str += ('$key=${Uri.encodeComponent(value)}&');
       });
 
-      var url = _baseUrl + '?' + str;
+      final url = '$_baseUrl?$str';
 
       /// Fetch and parse data from Google Transl. API
       final data = await http.get(url);
@@ -66,7 +81,14 @@ class GoogleTranslator {
         sb.write(jsonData[0][c][0]);
       }
 
-      return sb.toString();
+      final result = sb.toString();
+      if (useCache == true &&
+          (maxLengthCache == null ||
+              maxLengthCache == 0 ||
+              result.length <= maxLengthCache)) {
+        _cache[key] = result;
+      }
+      return result;
     } on Error catch (err) {
       print('Error: $err\n${err.stackTrace}');
       return null;
@@ -83,4 +105,11 @@ class GoogleTranslator {
 
   /// Sets base URL for countries that default url doesn't work
   void set baseUrl(var base) => _baseUrl = base;
+}
+
+enum ClientType {
+  /// extension Google Translate
+  extensionGT,
+  /// site Google Translate
+  siteGT,
 }

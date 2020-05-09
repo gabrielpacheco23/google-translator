@@ -53,13 +53,23 @@ void main() {
 
   test("Get the translation, man.", () async {
     var input = "The wisest go to the right";
-    expect(await GoogleTranslator().translate(input, to: 'pt'), equals("O mais sábio vai para a direita"));
+    expect(
+        await GoogleTranslator(client: ClientType.siteGT)
+            .translate(input, to: 'pt'),
+        equals("O mais sábio ir para a direita"));
+    expect(
+        await GoogleTranslator(client: ClientType.extensionGT)
+            .translate(input, to: 'pt'),
+        equals("Os mais sábios vão para a direita"));
   });
 
   test("Get the translation - using the extension method", () async {
     var input = "The wisest go to the right";
 
-    expect(await input.translate(to: 'pt'), equals("O mais sábio vai para a direita"));
-  });
+    expect(await input.translate(to: 'pt'),
+        equals("O mais sábio ir para a direita"));
 
+    expect(await input.translate(to: 'pt', client: ClientType.extensionGT),
+        equals("Os mais sábios vão para a direita"));
+  });
 }

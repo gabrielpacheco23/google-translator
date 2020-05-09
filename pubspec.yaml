@@ -8,6 +8,8 @@ dependencies:
 
 dev_dependencies:
   test: any
+  flutter_test:
+    sdk: flutter
 
 environment:
   #sdk: "2.6.0"
