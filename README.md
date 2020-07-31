@@ -8,13 +8,11 @@ and GitHub: https://github.com/gabrielpacheco23/google-translator
 
 ```dart
 void main() async {
-  final translator = new GoogleTranslator();
+  final translator = GoogleTranslator();
 
   final input = "Здравствуйте. Ты в порядке?";
 
-  translator.translate(input, from: 'ru', to: 'en').then((s) {
-    print(s);
-  });
+  translator.translate(input, from: 'ru', to: 'en').then(print);
   // prints Hello. Are you okay?
   
   var translation = await translator.translate("Dart is very cool!", to: 'pl');
@@ -40,7 +38,7 @@ translator.translate("I love Brazil!", from: 'en', to: 'pt').then((s) {
 or you can omit from language and it'll auto-detect the language of source text
 
 ```dart
-translator.translate("Hello", to: 'es').then((s) => print(s));
+translator.translate("Hello", to: 'es').then(print);
 // prints Hola
 ```
 &nbsp;
@@ -48,14 +46,23 @@ translator.translate("Hello", to: 'es').then((s) => print(s));
 and also pass the value to a var using ```await```
 ```dart
 var translation = await translator.translate("I would buy a car, if I had money.", from: 'en', to: 'it');
-  print(translation);
+print(translation);
 // prints Vorrei comprare una macchina, se avessi i soldi.
+```
+&nbsp;
+
+The returned value is a ```Translation``` object which holds the translation stuff
+```dart
+var translation = await translator.translate('Translation', from: 'en', to: 'es');
+print('${translation.source} (${translation.sourceLanguage}) == ${translation.text} (${translation.targetLanguage})');
+
+// prints Translation (English) == Traducción (Spanish)
 ```
 &nbsp;
 
 You can use the ***extension method*** directly on the string too
 ```dart
-  print(await "example".translate(to: 'pt'));
+print(await "example".translate(to: 'pt'));
 // prints exemplo
 ```
 &nbsp;

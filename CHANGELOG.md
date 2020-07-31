@@ -1,4 +1,11 @@
 # Releases
+# 0.1.5
+- Added Translation features
+- Added Language features
+- Added more understandable exceptions
+- Fixed some bugs
+- Cleaned up code
+
 # 0.1.4
 - Added extension method
 - Fixed url encoding bug
@@ -18,13 +25,3 @@
 # 0.1.0+3
 - Initial open source release.
 - Usage and example updated.
-
-
-&nbsp;
-# Pre-dev releases
-# 0.0.12
-- README Updated.
-# 0.0.11
-- README Updated.
-# 0.0.10
-- README Updated.

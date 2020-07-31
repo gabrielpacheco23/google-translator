@@ -7,7 +7,7 @@ import './token_provider_interface.dart';
 /// [author] Gabriel N. Pacheco
 ///
 
-class GoogleTokenGenerator implements TokenProviderInterface {
+class GoogleTokenGenerator implements TokenProvider {
   /// Generate and return a token
   @override
   String generateToken(String text) {

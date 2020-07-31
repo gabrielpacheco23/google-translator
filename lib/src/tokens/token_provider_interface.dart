@@ -1,3 +1,3 @@
-abstract class TokenProviderInterface {
-  dynamic generateToken(String text);
+abstract class TokenProvider {
+  String generateToken(String text);
 }

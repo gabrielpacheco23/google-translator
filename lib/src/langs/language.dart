@@ -1,4 +1,16 @@
-class Languages {
+/// Language object with name and code (ISO)
+class Language {
+  final String name;
+  final String code;
+
+  Language(this.code, this.name);
+
+  @override
+  String toString() => name;
+}
+
+/// Language list containing all languages supported by Google Translate API
+class LanguageList {
   static final _langs = {
     'auto': 'Automatic',
     'af': 'Afrikaans',
@@ -107,20 +119,30 @@ class Languages {
     'zu': 'Zulu'
   };
 
-  static String getCode(String desiredLang) {
-    var result;
-    _langs.forEach((key, value) {
-      if (value == desiredLang) result = key;
-
-      if (key == desiredLang) result = key;
-    });
-    if (result != null) return result;
-    return 'auto';
+  Language operator [](String code) {
+    if (_langs.containsKey(code)) {
+      return Language(code, _langs[code]);
+    }
+    throw LanguageNotSupportedException('$code is not a supported language.');
   }
 
-  static bool isSupported(String desiredLang) {
-    desiredLang = desiredLang.toLowerCase();
-    if (desiredLang is String && _langs.containsKey(desiredLang)) return true;
+  static bool contains(String codeOrLang) {
+    if (_langs.containsKey(codeOrLang) ||
+        _langs.containsValue(codeOrLang.toCamelCase())) {
+      return true;
+    }
     return false;
+  }
+}
+
+class LanguageNotSupportedException implements Exception {
+  final String msg;
+  LanguageNotSupportedException(String lang)
+      : msg = '$lang is not a supported language.';
+}
+
+extension _CamelCase on String {
+  String toCamelCase() {
+    return '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
   }
 }

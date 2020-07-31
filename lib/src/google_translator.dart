@@ -1,86 +1,93 @@
+library google_transl;
+
 import 'dart:async';
 import 'dart:convert' show jsonDecode;
 import 'package:http/http.dart' as http;
-import 'package:translator/src/langs/languages.dart';
-import './tokens/token_provider_interface.dart';
 import './tokens/google_token_gen.dart';
+import './langs/language.dart';
+
+part './model/translation.dart';
 
 ///
-/// This library is a Dart implementation of Free Google Translate API
-/// based on JavaScript and PHP Free Google Translate APIs
+/// This library is a Dart implementation of Google Translate API
 ///
 /// [author] Gabriel N. Pacheco.
 ///
 class GoogleTranslator {
-  GoogleTranslator();
+  var _baseUrl = 'translate.googleapis.com'; // faster than translate.google.com
+  final _path = '/translate_a/single';
+  final _tokenProvider = GoogleTokenGenerator();
+  final _languageList = LanguageList();
+  final ClientType client;
 
-  var _baseUrl = 'https://translate.googleapis.com/translate_a/single';
-  TokenProviderInterface tokenProvider;
+  GoogleTranslator({this.client = ClientType.siteGT});
 
   /// Translates texts from specified language to another
-  Future<String> translate(String sourceText,
+  Future<Translation> translate(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
-    /// Assertion for supported language
-    [from, to].forEach((language) {
-      assert(Languages.isSupported(language),
-          "\n\/E:\t\tError -> Not a supported language: '$language'");
-    });
-
-    /// New tokenProvider -> uses GoogleTokenGenerator for free API
-    tokenProvider = GoogleTokenGenerator();
-    try {
-      var parameters = {
-        'client': 't',
-        'sl': from,
-        'tl': to,
-        'dt': 't',
-        'ie': 'UTF-8',
-        'oe': 'UTF-8',
-        'tk': tokenProvider.generateToken(sourceText),
-        'q': sourceText
-      };
-
-      /// Append parameters in url
-      var str = '';
-      parameters.forEach((key, value) {
-        if (key == 'q') {
-          str += (key + '=' + Uri.encodeComponent(value));
-          return;
-        }
-        str += (key + '=' + Uri.encodeComponent(value) + '&');
-      });
-
-      var url = _baseUrl + '?' + str;
-
-      /// Fetch and parse data from Google Transl. API
-      final data = await http.get(url);
-      if (data.statusCode != 200) {
-        print(data.statusCode);
-        return null;
+    for (var each in [from, to]) {
+      if (!LanguageList.contains(each)) {
+        throw LanguageNotSupportedException(each);
       }
-
-      final jsonData = jsonDecode(data.body);
-
-      final sb = StringBuffer();
-      for (var c = 0; c < jsonData[0].length; c++) {
-        sb.write(jsonData[0][c][0]);
-      }
-
-      return sb.toString();
-    } on Error catch (err) {
-      print('Error: $err\n${err.stackTrace}');
-      return null;
     }
+
+    final parameters = {
+      'client': client == ClientType.siteGT ? 't' : 'gtx',
+      'sl': from,
+      'tl': to,
+      'hl': to,
+      'dt': 't',
+      'ie': 'UTF-8',
+      'oe': 'UTF-8',
+      'otf': '1',
+      'ssel': '0',
+      'tsel': '0',
+      'kc': '7',
+      'tk': _tokenProvider.generateToken(sourceText),
+      'q': sourceText
+    };
+
+    var url = Uri.https(_baseUrl, _path, parameters);
+    final data = await http.get(url);
+
+    if (data.statusCode != 200) {
+      throw http.ClientException('Error ${data.statusCode}: ${data.body}', url);
+    }
+
+    final jsonData = jsonDecode(data.body);
+    final sb = StringBuffer();
+
+    for (var c = 0; c < jsonData[0].length; c++) {
+      sb.write(jsonData[0][c][0]);
+    }
+
+    if (from == 'auto' && from != to) {
+      from = jsonData[2] ?? from;
+      if (from == to) {
+        from = 'auto';
+      }
+    }
+
+    final translated = sb.toString();
+    return _Translation(
+      translated,
+      source: sourceText,
+      sourceLanguage: _languageList[from],
+      targetLanguage: _languageList[to],
+    );
   }
 
   /// Translates and prints directly
   void translateAndPrint(String text,
       {String from = 'auto', String to = 'en'}) {
-    translate(text, from: from, to: to).then((s) {
-      print(s);
-    });
+    translate(text, from: from, to: to).then(print);
   }
 
-  /// Sets base URL for countries that default url doesn't work
-  void set baseUrl(var base) => _baseUrl = base;
+  /// Sets base URL for countries that default URL doesn't work
+  void set baseUrl(String url) => _baseUrl = url;
+}
+
+enum ClientType {
+  siteGT, // t
+  extensionGT, // gtx (blocking ip sometimes)
 }
