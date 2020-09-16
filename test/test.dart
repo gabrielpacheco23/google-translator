@@ -1,53 +1,36 @@
 import "package:test/test.dart";
-import 'package:translator/src/langs/language.dart';
 import 'package:translator/translator.dart';
 
 void main() {
-  test("Conection test: Is Google Translate API working?", () async {
+  test('Translation', () async {
     var translator = GoogleTranslator();
-    var t = await translator.translate('test', to: 'pt');
-    expect(t.text, 'teste');
+    var t = await translator.translate('good', to: 'ru');
+    expect(t.text, 'хороший');
   });
 
-  test("Changing the base URL", () async {
+  test('Alternative translations', () async {
     var translator = GoogleTranslator();
-    translator.baseUrl = 'translate.google.cn';
-    var transl = await translator.translate('friendship', to: 'es');
-    expect(transl.toString(), 'amistad');
+    var t = await translator.getAltTranslation('bad', to: 'ru');
+    expect(t.words, ['Плохо', 'плохой']);
   });
 
-  test("Get the right auto detected language", () async {
+  test('Synonyms', () async {
     var translator = GoogleTranslator();
-    var translation = await translator.translate('Translation', to: 'es');
-    expect(translation.sourceLanguage.code, 'en');
+    var t = await translator.getSynonyms('bad', to: 'ru');
+    expect(t.synonyms, ['crummy', 'rotten', 'pathetic', 'useless', 'woeful']);
   });
 
-  // this is because sometimes Google Translate doesn't translate well
-  test("Get the 'GT buggy' auto detected language", () async {
+  test('Examples', () async {
     var translator = GoogleTranslator();
-    var translation = await translator.translate('Translation', to: 'pt');
-    expect(translation.sourceLanguage.toString(), 'Automatic');
+    var t = await translator.getExamples('tree', to: 'ru');
+    expect(t.examples, ['pear <b>tree</b>']);
   });
 
-  test('GTX client', () async {
-    var translator = GoogleTranslator(client: ClientType.extensionGT);
-    var t = await translator.translate('test', to: 'pt');
-    expect('$t', 'teste');
-  });
-
-  test('Translation stuff', () async {
-    var translator = GoogleTranslator(client: ClientType.extensionGT);
-    var t = await translator.translate('perro', to: 'ru');
-    expect(t.targetLanguage.name, 'Russian');
-    expect(t.text, 'собака');
-    expect(t.source, 'perro');
-    expect(t.sourceLanguage.name, 'Spanish');
-  });
-
-  test('Language stuff', () {
-    bool b = LanguageList.contains('kke');
-    bool b2 = LanguageList.contains('ja');
-    expect(b, false);
-    expect(b2, true);
+  test('Definitions', () async {
+    var translator = GoogleTranslator();
+    var t = await translator.getDefinition('dad', to: 'ru');
+    expect(t.definitions, {
+      'имя существительное': ['one\'s father.']
+    });
   });
 }

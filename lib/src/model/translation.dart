@@ -8,7 +8,11 @@ abstract class Translation {
   final Language sourceLanguage;
 
   Translation._(
-      this.text, this.source, this.sourceLanguage, this.targetLanguage);
+    this.text,
+    this.source,
+    this.sourceLanguage,
+    this.targetLanguage,
+  );
 
   String operator +(other);
 
