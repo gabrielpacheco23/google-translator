@@ -2,6 +2,12 @@ import "package:test/test.dart";
 import 'package:translator/translator.dart';
 
 void main() {
+  test('Pronounce', () async {
+    var translator = GoogleTranslator();
+    var t = await translator.getPronunciationUrl('хорошо', to: 'ru');
+    print(t);
+  });
+
   test('Translation', () async {
     var translator = GoogleTranslator();
     var t = await translator.translate('good', to: 'ru');

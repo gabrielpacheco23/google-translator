@@ -22,9 +22,11 @@ part 'http_response_data.dart';
 class GoogleTranslator {
   var _baseUrl = 'translate.googleapis.com'; // faster than translate.google.com
   final _path = '/translate_a/single';
+  final _pronouncePath = '/translate_tts';
   final _tokenProvider = GoogleTokenGenerator();
   final _languageList = LanguageList();
   final ClientType client;
+  final List<String> _dataTypes = ['ex', 'ss', 'md', 'at', 't'];
 
   GoogleTranslator({this.client = ClientType.siteGT});
 
@@ -164,6 +166,15 @@ class GoogleTranslator {
     );
   }
 
+  Future<Uri> getPronunciationUrl(String sourceText,
+      {String from = 'auto', String to = 'en'}) async {
+    final Map<String, String> parameters =
+        await _getParameters(sourceText, from: from, to: to);
+
+    final url = Uri.https(_baseUrl, _pronouncePath, parameters);
+    return url;
+  }
+
   /// Translates and prints directly
   void translateAndPrint(String text,
       {String from = 'auto', String to = 'en'}) {
@@ -175,27 +186,8 @@ class GoogleTranslator {
 
   Future<HttpResponseData> _getData(String sourceText,
       {String from, String to, String dataType}) async {
-    for (var each in [from, to]) {
-      if (!LanguageList.contains(each)) {
-        throw LanguageNotSupportedException(each);
-      }
-    }
-
-    final Map<String, String> parameters = {
-      'client': client == ClientType.siteGT ? 't' : 'gtx',
-      'sl': from,
-      'tl': to,
-      'hl': to,
-      'dt': dataType,
-      'ie': 'UTF-8',
-      'oe': 'UTF-8',
-      'otf': '1',
-      'ssel': '0',
-      'tsel': '0',
-      'kc': '7',
-      'tk': _tokenProvider.generateToken(sourceText),
-      'q': sourceText
-    };
+    final Map<String, String> parameters = await _getParameters(sourceText,
+        from: from, to: to, dataType: dataType);
 
     final url = Uri.https(_baseUrl, _path, parameters);
     final data = await http.get(url);
@@ -212,6 +204,49 @@ class GoogleTranslator {
       sourceLanguage: _languageList[from].name,
       targetLanguage: _languageList[to].name,
     );
+  }
+
+  Future<Map<String, String>> _getParameters(String sourceText,
+      {String from, String to, String dataType}) async {
+    for (var each in [from, to]) {
+      if (!LanguageList.contains(each)) {
+        throw LanguageNotSupportedException(each);
+      }
+    }
+
+    final Map<String, String> parameters = {
+      'client': client == ClientType.siteGT ? 't' : 'gtx',
+      'ie': 'UTF-8',
+      'q': sourceText,
+      'tk': _tokenProvider.generateToken(sourceText),
+      'tl': to,
+    };
+
+    if (dataType == null) {
+      parameters.addAll({
+        'total': '1',
+        'idx': '0',
+        'textlen': '${sourceText.length}',
+        'hint': from,
+      });
+    } else if (_dataTypes.any((element) => element == dataType)) {
+      parameters.addAll({
+        'sl': from,
+        'hl': to,
+        'dt': dataType,
+        'oe': 'UTF-8',
+        'otf': '1',
+        'ssel': '0',
+        'tsel': '0',
+        'kc': '7',
+      });
+    } else {
+      throw UnknownDataTypeException(
+        'Passed data type is unknown or incorrect',
+      );
+    }
+
+    return parameters;
   }
 
   WrongHttpResponseDataException _throwException(

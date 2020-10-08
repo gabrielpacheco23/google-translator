@@ -9,3 +9,12 @@ class WrongHttpResponseDataException implements Exception {
   @override
   String toString() => message;
 }
+
+class UnknownDataTypeException implements Exception {
+  final String message;
+
+  UnknownDataTypeException(this.message);
+
+  @override
+  String toString() => message;
+}
