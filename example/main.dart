@@ -6,12 +6,14 @@ void main() async {
 
   // Using the Future API
   translator
-      .translate(input, to: 'en')
+      .getTranslation(input, to: 'en')
       .then((result) => print("Source: $input\nTranslated: $result"));
 
   // Passing the translation to a variable
-  var translation = await translator
-      .translate("I would buy a car, if I had money.", from: 'en', to: 'it');
+  var translation = await translator.getAltTranslation(
+      "I would buy a car, if I had money.",
+      from: 'en',
+      to: 'it');
 
   // You can also call the extension method directly on the input
   print('Translated: ${await input.translate(to: 'en')}');

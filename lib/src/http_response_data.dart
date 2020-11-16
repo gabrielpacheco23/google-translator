@@ -14,4 +14,13 @@ class HttpResponseData {
     this.sourceLanguage,
     this.targetLanguage,
   });
+
+  @override
+  String toString() {
+    return "{\n   jsonData: $jsonData,\n"
+        "   requestUrl: $requestUrl,\n"
+        "   sourceText: $sourceText,\n"
+        "   sourceLanguage: $sourceLanguage,\n"
+        "   targetLanguage: $targetLanguage,  }";
+  }
 }

@@ -127,6 +127,7 @@ class LanguageList {
   }
 
   static bool contains(String codeOrLang) {
+    if (codeOrLang == null) return false;
     if (_langs.containsKey(codeOrLang) ||
         _langs.containsValue(codeOrLang.toCamelCase())) {
       return true;
@@ -137,6 +138,7 @@ class LanguageList {
 
 class LanguageNotSupportedException implements Exception {
   final String msg;
+
   LanguageNotSupportedException(String lang)
       : msg = '$lang is not a supported language.';
 }
