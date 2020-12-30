@@ -120,6 +120,7 @@ class LanguageList {
   };
 
   Language operator [](String code) {
+    code = code.toLowerCase();
     if (_langs.containsKey(code)) {
       return Language(code, _langs[code]);
     }
