@@ -249,7 +249,7 @@ class GoogleTranslator {
       {String from, String to, String dataType}) async {
     for (var each in [from, to]) {
       if (!LanguageList.contains(each)) {
-        throw LanguageNotSupportedException("$each");
+        throw LanguageNotSupportedException(each);
       }
     }
 

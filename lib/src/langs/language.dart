@@ -11,7 +11,7 @@ class Language {
 
 /// Language list containing all languages supported by Google Translate API
 class LanguageList {
-  static final _langs = {
+  static final _languageNamePerCodeMap = {
     'auto': 'Automatic',
     'af': 'Afrikaans',
     'sq': 'Albanian',
@@ -127,16 +127,16 @@ class LanguageList {
   };
 
   Language operator [](String code) {
-    if (_langs.containsKey(code)) {
-      return Language(code, _langs[code]);
+    if (_languageNamePerCodeMap.containsKey(code)) {
+      return Language(code, _languageNamePerCodeMap[code]);
     }
     throw LanguageNotSupportedException('$code is not a supported language.');
   }
 
   static bool contains(String codeOrLang) {
     if (codeOrLang == null) return false;
-    if (_langs.containsKey(codeOrLang) ||
-        _langs.containsValue(codeOrLang.toCamelCase())) {
+    if (_languageNamePerCodeMap.containsKey(codeOrLang) ||
+        _languageNamePerCodeMap.containsValue(codeOrLang.toCamelCase())) {
       return true;
     }
     return false;
@@ -144,14 +144,15 @@ class LanguageList {
 }
 
 class LanguageNotSupportedException implements Exception {
-  final String msg;
+  final String language;
 
-  LanguageNotSupportedException(String lang)
-      : msg = '$lang is not a supported language.';
+  LanguageNotSupportedException(this.language);
+
+  @override
+  String toString() => "Language '$language' is not supported";
 }
 
 extension _CamelCase on String {
-  String toCamelCase() {
-    return '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
-  }
+  String toCamelCase() =>
+      '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
 }
