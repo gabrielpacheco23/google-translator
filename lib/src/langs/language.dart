@@ -26,9 +26,9 @@ class LanguageList {
     'bg': 'Bulgarian',
     'ca': 'Catalan',
     'ceb': 'Cebuano',
-    'ny': 'Chichewa',
-    'zh-cn': 'Chinese Simplified',
-    'zh-tw': 'Chinese Traditional',
+    'zh': 'Chinese Simplified',
+    'zh-CN': 'Chinese Simplified',
+    'zh-TW': 'Chinese Traditional',
     'co': 'Corsican',
     'hr': 'Croatian',
     'cs': 'Czech',
@@ -37,7 +37,6 @@ class LanguageList {
     'en': 'English',
     'eo': 'Esperanto',
     'et': 'Estonian',
-    'tl': 'Filipino',
     'fi': 'Finnish',
     'fr': 'French',
     'fy': 'Frisian',
@@ -49,6 +48,7 @@ class LanguageList {
     'ht': 'Haitian Creole',
     'ha': 'Hausa',
     'haw': 'Hawaiian',
+    'he': 'Hebrew',
     'iw': 'Hebrew',
     'hi': 'Hindi',
     'hmn': 'Hmong',
@@ -63,8 +63,9 @@ class LanguageList {
     'kn': 'Kannada',
     'kk': 'Kazakh',
     'km': 'Khmer',
+    'rw': 'Kinyarwanda',
     'ko': 'Korean',
-    'ku': 'Kurdish (Kurmanji)',
+    'ku': 'Kurdish',
     'ky': 'Kyrgyz',
     'lo': 'Lao',
     'la': 'Latin',
@@ -82,10 +83,12 @@ class LanguageList {
     'my': 'Myanmar (Burmese)',
     'ne': 'Nepali',
     'no': 'Norwegian',
+    'ny': 'Nyanja (Chichewa)',
+    'or': 'Odia (Oriya)',
     'ps': 'Pashto',
     'fa': 'Persian',
     'pl': 'Polish',
-    'pt': 'Portuguese',
+    'pt': 'Portuguese (Portugal, Brazil)',
     'pa': 'Punjabi',
     'ro': 'Romanian',
     'ru': 'Russian',
@@ -95,7 +98,7 @@ class LanguageList {
     'st': 'Sesotho',
     'sn': 'Shona',
     'sd': 'Sindhi',
-    'si': 'Sinhala',
+    'si': 'Sinhala (Sinhalese)',
     'sk': 'Slovak',
     'sl': 'Slovenian',
     'so': 'Somali',
@@ -103,13 +106,17 @@ class LanguageList {
     'su': 'Sundanese',
     'sw': 'Swahili',
     'sv': 'Swedish',
+    'tl': 'Tagalog (Filipino)',
     'tg': 'Tajik',
     'ta': 'Tamil',
+    'tt': 'Tatar',
     'te': 'Telugu',
     'th': 'Thai',
     'tr': 'Turkish',
+    'tk': 'Turkmen',
     'uk': 'Ukrainian',
     'ur': 'Urdu',
+    'ug': 'Uyghur',
     'uz': 'Uzbek',
     'vi': 'Vietnamese',
     'cy': 'Welsh',
@@ -128,6 +135,7 @@ class LanguageList {
   }
 
   static bool contains(String codeOrLang) {
+    if (codeOrLang == null) return false;
     if (_langs.containsKey(codeOrLang) ||
         _langs.containsValue(codeOrLang.toCamelCase())) {
       return true;
@@ -138,6 +146,7 @@ class LanguageList {
 
 class LanguageNotSupportedException implements Exception {
   final String msg;
+
   LanguageNotSupportedException(String lang)
       : msg = '$lang is not a supported language.';
 }
