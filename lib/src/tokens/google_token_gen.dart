@@ -1,3 +1,4 @@
+import 'dart:io' show exit;
 import './token_provider_interface.dart';
 
 ///
@@ -83,7 +84,7 @@ class GoogleTokenGenerator implements TokenProvider {
       return a;
     } on Error catch (e) {
       print(e.toString());
-      return null;
+      exit(1);
     }
   }
 

@@ -2,10 +2,10 @@ part of google_transl;
 
 /// Translation returned from GoogleTranslator.translate method, containing the translated text, the source text, the translated language and the source language
 abstract class Translation {
-  final String text;
-  final String source;
-  final Language targetLanguage;
-  final Language sourceLanguage;
+  late final String text;
+  late final String source;
+  late final Language targetLanguage;
+  late final Language sourceLanguage;
 
   Translation._(
       this.text, this.source, this.sourceLanguage, this.targetLanguage);
@@ -24,9 +24,9 @@ class _Translation extends Translation {
 
   _Translation(
     this.text, {
-    this.sourceLanguage,
-    this.targetLanguage,
-    this.source,
+    required this.sourceLanguage,
+    required this.targetLanguage,
+    required this.source,
   }) : super._(text, source, sourceLanguage, targetLanguage);
 
   String operator +(other) => this.toString() + other.toString();

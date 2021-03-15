@@ -55,6 +55,10 @@ class GoogleTranslator {
     }
 
     final jsonData = jsonDecode(data.body);
+    if (jsonData == null) {
+      throw http.ClientException('Error: Can\'t parse json data');
+    }
+
     final sb = StringBuffer();
 
     for (var c = 0; c < jsonData[0].length; c++) {
@@ -84,7 +88,7 @@ class GoogleTranslator {
   }
 
   /// Sets base URL for countries that default URL doesn't work
-  void set baseUrl(String url) => _baseUrl = url;
+  set baseUrl(String url) => _baseUrl = url;
 }
 
 enum ClientType {

@@ -1,4 +1,7 @@
 # Releases
+# 0.1.6
+- Migrate to null-safety
+
 # 0.1.5
 - Added Translation features
 - Added Language features
