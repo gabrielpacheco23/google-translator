@@ -81,7 +81,7 @@ For full API docs take a look at https://pub.dartlang.org/documentation/translat
 # License
 MIT License
 
-Copyright © 2019 Gabriel Pacheco
+Copyright © 2021 Gabriel Pacheco
 
 
 # Disclaimer

@@ -1,4 +1,7 @@
 # Releases
+# 0.1.6+1
+- Support js runtime
+
 # 0.1.6
 - Migrate to null-safety
 

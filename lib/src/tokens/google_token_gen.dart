@@ -1,4 +1,3 @@
-import 'dart:io' show exit;
 import './token_provider_interface.dart';
 
 ///
@@ -82,9 +81,8 @@ class GoogleTokenGenerator implements TokenProvider {
         a = '+' == b[c] ? (a + (d as int) & 4294967295) : a ^ d;
       }
       return a;
-    } on Error catch (e) {
-      print(e.toString());
-      exit(1);
+    } on Error {
+      rethrow;
     }
   }
 
