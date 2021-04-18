@@ -1,5 +1,8 @@
 # Releases
-# 0.1.6+1
+# 0.1.7
+- Support Uyghur (ug) language
+
+# 0.1.6+2
 - Support js runtime
 
 # 0.1.6
