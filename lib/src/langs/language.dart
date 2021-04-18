@@ -111,6 +111,7 @@ class LanguageList {
     'uk': 'Ukrainian',
     'ur': 'Urdu',
     'uz': 'Uzbek',
+    'ug': 'Uyghur',
     'vi': 'Vietnamese',
     'cy': 'Welsh',
     'xh': 'Xhosa',
