@@ -14,24 +14,29 @@ abstract class Translation {
     this.targetLanguage,
   );
 
-  String operator +(other);
+  String operator +(Translation other);
 
   @override
   String toString() => text;
 }
 
 class _Translation extends Translation {
+  @override
   final String text;
+  @override
   final String source;
+  @override
   final Language sourceLanguage;
+  @override
   final Language targetLanguage;
 
   _Translation(
     this.text, {
-    this.sourceLanguage,
-    this.targetLanguage,
-    this.source,
+    required this.sourceLanguage,
+    required this.targetLanguage,
+    required this.source,
   }) : super._(text, source, sourceLanguage, targetLanguage);
 
-  String operator +(other) => this.toString() + other.toString();
+  @override
+  String operator +(Translation other) => toString() + other.toString();
 }

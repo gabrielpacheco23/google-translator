@@ -1,7 +1,7 @@
 part of google_transl;
 
 class HttpResponseData {
-  final jsonData;
+  final dynamic jsonData;
   final Uri requestUrl;
   final String sourceText;
   final String sourceLanguage;
@@ -9,10 +9,10 @@ class HttpResponseData {
 
   HttpResponseData({
     this.jsonData,
-    this.requestUrl,
-    this.sourceText,
-    this.sourceLanguage,
-    this.targetLanguage,
+    required this.requestUrl,
+    required this.sourceText,
+    required this.sourceLanguage,
+    required this.targetLanguage,
   });
 
   @override

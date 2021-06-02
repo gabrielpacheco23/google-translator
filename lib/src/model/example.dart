@@ -6,6 +6,10 @@ class Example {
   final Language targetLanguage;
   final Language sourceLanguage;
 
-  Example(this.examples,
-      {this.source, this.sourceLanguage, this.targetLanguage});
+  Example(
+    this.examples, {
+    required this.source,
+    required this.sourceLanguage,
+    required this.targetLanguage,
+  });
 }

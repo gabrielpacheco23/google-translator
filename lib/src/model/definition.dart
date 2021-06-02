@@ -6,6 +6,10 @@ class Definition {
   final Language targetLanguage;
   final Language sourceLanguage;
 
-  Definition(this.definitions,
-      {this.source, this.sourceLanguage, this.targetLanguage});
+  Definition(
+    this.definitions, {
+    required this.source,
+    required this.sourceLanguage,
+    required this.targetLanguage,
+  });
 }

@@ -17,10 +17,10 @@ class GoogleTokenGenerator implements TokenProvider {
   /// Generate a valid Google Translate request token
   /// [a] is the text to translate
   String tokenGen(dynamic a) {
-    var tkk = TKK();
-    var b = tkk[0];
+    final tkk = TKK();
+    final b = tkk[0];
 
-    var d = []; //List();
+    final d = []; //List();
 
     for (var f = 0; f < a.toString().length; f++) {
       var g = a.toString().codeUnitAt(f);
@@ -49,7 +49,7 @@ class GoogleTokenGenerator implements TokenProvider {
     a = b;
     for (var e = 0; e < d.length; e++) {
       if (a is String) {
-        a = int.parse(a) + d[e];
+        a = int.parse(a) + (d[e] as num);
       } else {
         a += d[e];
       }
@@ -57,27 +57,27 @@ class GoogleTokenGenerator implements TokenProvider {
     }
     a = wr(a, '+-3^+b+-f');
     a ^= tkk[1] != null ? tkk[1] + 0 : 0;
-    if (0 > a) {
+    if (0 > (a as int)) {
       a = (a & 2147483647) + 2147483648;
     }
     a %= 1E6;
     a = (a as double).round();
-    return a.toString() + '.' + (a ^ int.parse(b)).toString();
+    return a.toString() + '.' + (a ^ int.parse(b as String)).toString();
   }
 
   List TKK() {
     return ['406398', (561666268 + 1526272306)];
   }
 
-  int wr(dynamic a, dynamic b) {
-    var d;
+  dynamic wr(dynamic a, dynamic b) {
+    dynamic d;
     try {
       for (var c = 0; c < b.toString().length - 2; c += 3) {
         d = b[c + 2];
         d = 'a'.codeUnitAt(0) <= d.toString().codeUnitAt(0)
             ? (d[0].toString().codeUnitAt(0)) - 87
-            : int.parse(d);
-        d = '+' == b[c + 1] ? unsignedRightShift(a, d) : a << d;
+            : int.parse(d as String);
+        d = '+' == b[c + 1] ? unsignedRightShift(a as int, d as int) : a << d;
         a = '+' == b[c] ? (a + (d as int) & 4294967295) : a ^ d;
       }
       return a;
@@ -87,10 +87,10 @@ class GoogleTokenGenerator implements TokenProvider {
     }
   }
 
-  int unsignedRightShift(var a, var b) {
-    var m;
+  int unsignedRightShift(int a, int b) {
+    int m;
     if (b >= 32 || b < -32) {
-      m = (b / 32) as int;
+      m = b / 32 as int;
       b = b - (m * 32);
     }
 
@@ -103,12 +103,12 @@ class GoogleTokenGenerator implements TokenProvider {
     }
 
     if (a < 0) {
-      a = (a >> 1);
+      a = a >> 1;
       a &= 2147483647;
       a |= 0x40000000;
-      a = (a >> (b - 1));
+      a = a >> (b - 1);
     } else {
-      a = (a >> b);
+      a = a >> b;
     }
     return a;
   }

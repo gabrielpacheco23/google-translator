@@ -6,6 +6,10 @@ class Synonym {
   final Language targetLanguage;
   final Language sourceLanguage;
 
-  Synonym(this.synonyms,
-      {this.source, this.sourceLanguage, this.targetLanguage});
+  Synonym(
+    this.synonyms, {
+    required this.source,
+    required this.sourceLanguage,
+    required this.targetLanguage,
+  });
 }

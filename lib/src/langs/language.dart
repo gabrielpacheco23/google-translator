@@ -128,12 +128,12 @@ class LanguageList {
 
   Language operator [](String code) {
     if (_languageNamePerCodeMap.containsKey(code)) {
-      return Language(code, _languageNamePerCodeMap[code]);
+      return Language(code, _languageNamePerCodeMap[code]!);
     }
     throw LanguageNotSupportedException('$code is not a supported language.');
   }
 
-  static bool contains(String codeOrLang) {
+  static bool contains(String? codeOrLang) {
     if (codeOrLang == null) return false;
     if (_languageNamePerCodeMap.containsKey(codeOrLang) ||
         _languageNamePerCodeMap.containsValue(codeOrLang.toCamelCase())) {
@@ -154,5 +154,5 @@ class LanguageNotSupportedException implements Exception {
 
 extension _CamelCase on String {
   String toCamelCase() =>
-      '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
+      '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 }

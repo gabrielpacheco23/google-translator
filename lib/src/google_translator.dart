@@ -44,7 +44,7 @@ class GoogleTranslator {
   Future<Translation> getTranslation(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
     final HttpResponseData httpResponseData =
-    await _getData(sourceText, from: from, to: to, dataType: 't');
+        await _getData(sourceText, from, to, dataType: 't');
 
     final jsonData = httpResponseData.jsonData;
     final sb = StringBuffer();
@@ -72,14 +72,14 @@ class GoogleTranslator {
   Future<AlternativeTranslation> getAltTranslation(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
     final HttpResponseData httpResponseData =
-        await _getData(sourceText, from: from, to: to, dataType: 'at');
+        await _getData(sourceText, from, to, dataType: 'at');
     final jsonData = httpResponseData.jsonData;
     final List<String> words = [];
     try {
       final indexedData =
           jsonData[_map[RequestType.alternativeTranslation]][0][2];
       for (final i in indexedData) {
-        words.add(i[0]);
+        words.add(i[0] as String);
       }
     } catch (e) {
       _throwException(
@@ -100,18 +100,18 @@ class GoogleTranslator {
   Future<Definition> getDefinition(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
     final HttpResponseData httpResponseData =
-    await _getData(sourceText, from: from, to: to, dataType: 'md');
+        await _getData(sourceText, from, to, dataType: 'md');
 
     final jsonData = httpResponseData.jsonData;
-    Map<String, List<String>> definitionsMap = <String, List<String>>{};
+    final Map<String, List<String>> definitionsMap = <String, List<String>>{};
     try {
       final indexedData = jsonData[_map[RequestType.definition]];
       for (final i in indexedData) {
-        String title = i[0];
-        List<String> definitions = [];
-        List inList = i[1];
+        final String title = i[0] as String;
+        final List<String> definitions = [];
+        final List inList = i[1] as List;
         for (final n in inList) {
-          definitions.add(n[0]);
+          definitions.add(n[0] as String);
         }
         definitionsMap[title] = definitions;
       }
@@ -133,16 +133,16 @@ class GoogleTranslator {
   Future<Synonym> getSynonyms(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
     final HttpResponseData httpResponseData =
-    await _getData(sourceText, from: from, to: to, dataType: 'ss');
+        await _getData(sourceText, from, to, dataType: 'ss');
 
     final jsonData = httpResponseData.jsonData;
-    List<String> filteredData = [];
+    final List<String> filteredData = [];
     try {
       final indexedData = jsonData[_map[RequestType.synonym]];
       for (final i in indexedData) {
         for (final n in i[1]) {
           for (final t in n[0]) {
-            filteredData.add(t);
+            filteredData.add(t as String);
           }
         }
       }
@@ -165,14 +165,14 @@ class GoogleTranslator {
   Future<Example> getExamples(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
     final HttpResponseData httpResponseData =
-    await _getData(sourceText, from: from, to: to, dataType: 'ex');
+        await _getData(sourceText, from, to, dataType: 'ex');
 
     final jsonData = httpResponseData.jsonData;
-    List<String> list = [];
+    final List<String> list = [];
     try {
       final indexedData = jsonData[_map[RequestType.example]];
       for (final i in indexedData[0]) {
-        String string = i[0];
+        final String string = i[0] as String;
         list.add(string);
       }
     } catch (e) {
@@ -193,25 +193,36 @@ class GoogleTranslator {
   Future<Uri> getPronunciationUrl(String sourceText,
       {String from = 'auto', String to = 'en'}) async {
     final Map<String, String> parameters =
-    await _getParameters(sourceText, from: from, to: to);
+        await _getParameters(sourceText, from, to, null);
 
     final url = Uri.https(_baseUrl, _pronouncePath, parameters);
     return url;
   }
 
   /// Translates and prints directly
-  void translateAndPrint(String text,
-      {String from = 'auto', String to = 'en'}) {
+  void translateAndPrint(
+    String text, {
+    String from = 'auto',
+    String to = 'en',
+  }) {
     getTranslation(text, from: from, to: to).then(print);
   }
 
   /// Sets base URL for countries that default URL doesn't work
-  void set baseUrl(String url) => _baseUrl = url;
+  set baseUrl(String url) => _baseUrl = url;
 
-  Future<HttpResponseData> _getData(String sourceText,
-      {String from, String to, String dataType}) async {
-    final Map<String, String> parameters = await _getParameters(sourceText,
-        from: from, to: to, dataType: dataType);
+  Future<HttpResponseData> _getData(
+    String sourceText,
+    String from,
+    String to, {
+    String? dataType,
+  }) async {
+    final Map<String, String> parameters = await _getParameters(
+      sourceText,
+      from,
+      to,
+      dataType,
+    );
 
     final uri = Uri.https(_baseUrl, _path, parameters);
     http.Response response;
@@ -220,19 +231,17 @@ class GoogleTranslator {
     } catch (e, stacktrace) {
       throw Exception(
         "Http get fail\n"
-            "  request uri: $uri\n"
-            "  error message: $e\n"
-            "$stacktrace",
+        "  request uri: $uri\n"
+        "  error message: $e\n"
+        "$stacktrace",
       );
     }
-    if (response == null)
-      throw Exception("Http get fail, response is NULL\n"
-          " request uri: $uri\n"
-          "${StackTrace.current}");
-
-    if (response.statusCode != 200)
+    if (response.statusCode != 200) {
       throw http.ClientException(
-          'Error ${response.statusCode}: ${response.body}', uri);
+        'Error ${response.statusCode}: ${response.body}',
+        uri,
+      );
+    }
 
     final jsonData = jsonDecode(response.body);
 
@@ -245,9 +254,9 @@ class GoogleTranslator {
     );
   }
 
-  Future<Map<String, String>> _getParameters(String sourceText,
-      {String from, String to, String dataType}) async {
-    for (var each in [from, to]) {
+  Future<Map<String, String>> _getParameters(
+      String sourceText, String from, String to, String? dataType) async {
+    for (final each in [from, to]) {
       if (!LanguageList.contains(each)) {
         throw LanguageNotSupportedException(each);
       }
@@ -282,17 +291,18 @@ class GoogleTranslator {
     } else {
       throw UnknownDataTypeException(
         'Passed data type is unknown or'
-            ' incorrect\n${StackTrace.current}',
+        ' incorrect\n${StackTrace.current}',
       );
     }
 
     return parameters;
   }
 
-  WrongHttpResponseDataException _throwException(RequestType requestType,
-      HttpResponseData httpResponseData, {
-        dynamic innerException,
-      }) {
+  WrongHttpResponseDataException _throwException(
+    RequestType requestType,
+    HttpResponseData httpResponseData, {
+    dynamic innerException,
+  }) {
     throw WrongHttpResponseDataException(
       "Wrong HTTP response on ${requestType.toString().split(".")[1]} request\n"
       "$innerException\n"

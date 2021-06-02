@@ -6,6 +6,10 @@ class AlternativeTranslation {
   final Language targetLanguage;
   final Language sourceLanguage;
 
-  AlternativeTranslation(this.words,
-      {this.source, this.sourceLanguage, this.targetLanguage});
+  AlternativeTranslation(
+    this.words, {
+    required this.source,
+    required this.sourceLanguage,
+    required this.targetLanguage,
+  });
 }
