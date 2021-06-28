@@ -5,7 +5,7 @@ class HttpResponseData {
   final Uri requestUrl;
   final String sourceText;
   final String sourceLanguage;
-  final String targetLanguage;
+  final String? targetLanguage;
 
   HttpResponseData({
     this.jsonData,

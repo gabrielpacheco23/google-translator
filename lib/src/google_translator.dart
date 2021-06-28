@@ -9,42 +9,59 @@ import './langs/language.dart';
 import './tokens/google_token_gen.dart';
 
 part './model/alternative_translation.dart';
+
 part './model/definition.dart';
+
 part './model/example.dart';
+
 part './model/synonym.dart';
+
 part './model/translation.dart';
+
 part 'exception.dart';
+
 part 'http_response_data.dart';
 
-/**
- *
- * This library is a Dart implementation of Google Translate API
- *
- * [authors] Gabriel N. Pacheco
- *
- */
+///
+/// This library is a Dart implementation of Google Translate API
+///
+/// [authors] Gabriel N. Pacheco
+///
 class GoogleTranslator {
-  final _map = {
+  // faster than translate.google.com
+  static const String defaultBaseUrl = 'translate.googleapis.com';
+  static const String alternativeBaseUrl = 'translate.google.com';
+
+  static const String autoLanguage = 'auto';
+
+  final String baseUrl;
+  final ClientType clientType;
+
+  static const _map = {
     RequestType.translation: 0,
     RequestType.alternativeTranslation: 5,
     RequestType.synonym: 11,
     RequestType.definition: 12,
     RequestType.example: 13,
   };
-  var _baseUrl = 'translate.googleapis.com'; // faster than translate.google.com
-  final _path = '/translate_a/single';
-  final _pronouncePath = '/translate_tts';
+
+  static const String _path = '/translate_a/single';
+  static const _pronouncePath = '/translate_tts';
+  static const List<String> _dataTypes = ['ex', 'ss', 'md', 'at', 't'];
+
   final _tokenProvider = GoogleTokenGenerator();
   final _languageList = LanguageList();
-  final ClientType client;
-  final List<String> _dataTypes = ['ex', 'ss', 'md', 'at', 't'];
 
-  GoogleTranslator({this.client = ClientType.siteGT});
+  /// allow to set base URL since for countries the default URL doesn't work
+  GoogleTranslator({
+    this.baseUrl = defaultBaseUrl,
+    this.clientType = ClientType.siteGT,
+  });
 
   Future<Translation> getTranslation(String sourceText,
-      {String from = 'auto', String to = 'en'}) async {
+      {String from = autoLanguage, required String to}) async {
     final HttpResponseData httpResponseData =
-        await _getData(sourceText, from, to, dataType: 't');
+        await _getData(sourceText, from, to: to, dataType: 't');
 
     final jsonData = httpResponseData.jsonData;
     final sb = StringBuffer();
@@ -69,10 +86,13 @@ class GoogleTranslator {
     );
   }
 
-  Future<AlternativeTranslation> getAltTranslation(String sourceText,
-      {String from = 'auto', String to = 'en'}) async {
+  Future<AlternativeTranslation> getAltTranslation(
+    String sourceText, {
+    String from = autoLanguage,
+    required String to,
+  }) async {
     final HttpResponseData httpResponseData =
-        await _getData(sourceText, from, to, dataType: 'at');
+        await _getData(sourceText, from, to: to, dataType: 'at');
     final jsonData = httpResponseData.jsonData;
     final List<String> words = [];
     try {
@@ -97,10 +117,17 @@ class GoogleTranslator {
     );
   }
 
-  Future<Definition> getDefinition(String sourceText,
-      {String from = 'auto', String to = 'en'}) async {
-    final HttpResponseData httpResponseData =
-        await _getData(sourceText, from, to, dataType: 'md');
+  Future<Definition> getDefinition(
+    String sourceText, {
+    String from = autoLanguage,
+    String to = autoLanguage,
+  }) async {
+    final HttpResponseData httpResponseData = await _getData(
+      sourceText,
+      from,
+      to: to,
+      dataType: 'md',
+    );
 
     final jsonData = httpResponseData.jsonData;
     final Map<String, List<String>> definitionsMap = <String, List<String>>{};
@@ -130,10 +157,12 @@ class GoogleTranslator {
     );
   }
 
-  Future<Synonym> getSynonyms(String sourceText,
-      {String from = 'auto', String to = 'en'}) async {
+  Future<Synonym> getSynonyms(
+    String sourceText, {
+    String from = autoLanguage,
+  }) async {
     final HttpResponseData httpResponseData =
-        await _getData(sourceText, from, to, dataType: 'ss');
+        await _getData(sourceText, from, dataType: 'ss');
 
     final jsonData = httpResponseData.jsonData;
     final List<String> filteredData = [];
@@ -157,15 +186,16 @@ class GoogleTranslator {
     return Synonym(
       filteredData,
       source: sourceText,
-      targetLanguage: _languageList[to],
       sourceLanguage: _languageList[from],
     );
   }
 
-  Future<Example> getExamples(String sourceText,
-      {String from = 'auto', String to = 'en'}) async {
+  Future<Example> getExamples(
+    String sourceText, {
+    String from = autoLanguage,
+  }) async {
     final HttpResponseData httpResponseData =
-        await _getData(sourceText, from, to, dataType: 'ex');
+        await _getData(sourceText, from, dataType: 'ex');
 
     final jsonData = httpResponseData.jsonData;
     final List<String> list = [];
@@ -186,45 +216,34 @@ class GoogleTranslator {
       list,
       source: sourceText,
       sourceLanguage: _languageList[from],
-      targetLanguage: _languageList[to],
     );
   }
 
-  Future<Uri> getPronunciationUrl(String sourceText,
-      {String from = 'auto', String to = 'en'}) async {
+  Future<Uri> getPronunciationUrl(
+    String sourceText, {
+    String from = autoLanguage,
+    required String to,
+  }) async {
     final Map<String, String> parameters =
-        await _getParameters(sourceText, from, to, null);
+        await _getParameters(sourceText, from, to: to);
 
-    final url = Uri.https(_baseUrl, _pronouncePath, parameters);
-    return url;
+    return Uri.https(baseUrl, _pronouncePath, parameters);
   }
-
-  /// Translates and prints directly
-  void translateAndPrint(
-    String text, {
-    String from = 'auto',
-    String to = 'en',
-  }) {
-    getTranslation(text, from: from, to: to).then(print);
-  }
-
-  /// Sets base URL for countries that default URL doesn't work
-  set baseUrl(String url) => _baseUrl = url;
 
   Future<HttpResponseData> _getData(
     String sourceText,
-    String from,
-    String to, {
+    String from, {
+    String? to,
     String? dataType,
   }) async {
     final Map<String, String> parameters = await _getParameters(
       sourceText,
       from,
-      to,
-      dataType,
+      to: to,
+      dataType: dataType,
     );
 
-    final uri = Uri.https(_baseUrl, _path, parameters);
+    final uri = Uri.https(baseUrl, _path, parameters);
     http.Response response;
     try {
       response = await http.get(uri);
@@ -250,24 +269,26 @@ class GoogleTranslator {
       requestUrl: uri,
       sourceText: sourceText,
       sourceLanguage: _languageList[from].name,
-      targetLanguage: _languageList[to].name,
+      targetLanguage: to == null ? null : _languageList[to].name,
     );
   }
 
-  Future<Map<String, String>> _getParameters(
-      String sourceText, String from, String to, String? dataType) async {
-    for (final each in [from, to]) {
-      if (!LanguageList.contains(each)) {
-        throw LanguageNotSupportedException(each);
-      }
+  Future<Map<String, String>> _getParameters(String sourceText, String from,
+      {String? to, String? dataType}) async {
+    if (!LanguageList.contains(from)) {
+      throw LanguageNotSupportedException(from);
+    }
+
+    if (to != null && !LanguageList.contains(to)) {
+      throw LanguageNotSupportedException(to);
     }
 
     final Map<String, String> parameters = {
-      'client': client == ClientType.siteGT ? 't' : 'gtx',
+      'client': clientType == ClientType.siteGT ? 't' : 'gtx',
       'ie': 'UTF-8',
       'q': sourceText,
       'tk': _tokenProvider.generateToken(sourceText),
-      'tl': to,
+      if (to != null) 'tl': to,
     };
 
     if (dataType == null) {
@@ -277,10 +298,10 @@ class GoogleTranslator {
         'textlen': '${sourceText.length}',
         'hint': from,
       });
-    } else if (_dataTypes.any((element) => element == dataType)) {
+    } else if (_dataTypes.any((dt) => dt == dataType)) {
       parameters.addAll({
         'sl': from,
-        'hl': to,
+        if (to != null) 'hl': to,
         'dt': dataType,
         'oe': 'UTF-8',
         'otf': '1',
@@ -290,7 +311,7 @@ class GoogleTranslator {
       });
     } else {
       throw UnknownDataTypeException(
-        'Passed data type is unknown or'
+        "Passed data type '$dataType' is unknown or"
         ' incorrect\n${StackTrace.current}',
       );
     }
