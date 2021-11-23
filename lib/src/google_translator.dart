@@ -6,7 +6,12 @@ import 'dart:convert' show jsonDecode;
 import 'package:http/http.dart' as http;
 
 import './langs/language.dart';
-import './tokens/google_token_gen.dart';
+import './tokens/google_token_generator.dart';
+import 'enums/client_type.dart';
+import 'enums/request_type.dart';
+import 'exceptions/google_translator_exception.dart';
+import 'exceptions/wrong_http_response_data_exception.dart';
+import 'http_response_data.dart';
 
 part './model/alternative_translation.dart';
 
@@ -17,10 +22,6 @@ part './model/example.dart';
 part './model/synonym.dart';
 
 part './model/translation.dart';
-
-part 'exception.dart';
-
-part 'http_response_data.dart';
 
 ///
 /// This library is a Dart implementation of Google Translate API
@@ -58,8 +59,11 @@ class GoogleTranslator {
     this.clientType = ClientType.siteGT,
   });
 
-  Future<Translation> getTranslation(String sourceText,
-      {String from = autoLanguage, required String to}) async {
+  Future<Translation> getTranslation(
+    String sourceText, {
+    String from = autoLanguage,
+    required String to,
+  }) async {
     final HttpResponseData httpResponseData =
         await _getData(sourceText, from, to: to, dataType: 't');
 
@@ -71,7 +75,7 @@ class GoogleTranslator {
         sb.write(i[0]);
       }
     } catch (e) {
-      _throwException(
+      _throwBadDataException(
         RequestType.translation,
         httpResponseData,
         innerException: e,
@@ -103,7 +107,7 @@ class GoogleTranslator {
         if (!translations.contains(translation)) translations.add(translation);
       }
     } catch (e) {
-      _throwException(
+      _throwBadDataException(
         RequestType.alternativeTranslation,
         httpResponseData,
         innerException: e,
@@ -144,7 +148,7 @@ class GoogleTranslator {
         definitionsMap[title] = definitions;
       }
     } catch (e) {
-      _throwException(
+      _throwBadDataException(
         RequestType.definition,
         httpResponseData,
         innerException: e,
@@ -177,7 +181,7 @@ class GoogleTranslator {
         }
       }
     } catch (e) {
-      _throwException(
+      _throwBadDataException(
         RequestType.synonym,
         httpResponseData,
         innerException: e,
@@ -207,7 +211,7 @@ class GoogleTranslator {
         list.add(string);
       }
     } catch (e) {
-      _throwException(
+      _throwBadDataException(
         RequestType.example,
         httpResponseData,
         innerException: e,
@@ -249,9 +253,9 @@ class GoogleTranslator {
     try {
       response = await http.get(uri);
     } catch (e, stacktrace) {
-      throw Exception(
-        "Http get fail\n"
-        "  request uri: $uri\n"
+      throw GoogleTranslatorException(
+        "HTTP Get failed\n"
+        "  request URI: $uri\n"
         "  error message: $e\n"
         "$stacktrace",
       );
@@ -311,7 +315,7 @@ class GoogleTranslator {
         'kc': '7',
       });
     } else {
-      throw UnknownDataTypeException(
+      throw GoogleTranslatorException(
         "Passed data type '$dataType' is unknown or"
         ' incorrect\n${StackTrace.current}',
       );
@@ -320,28 +324,14 @@ class GoogleTranslator {
     return parameters;
   }
 
-  WrongHttpResponseDataException _throwException(
+  void _throwBadDataException(
     RequestType requestType,
     HttpResponseData httpResponseData, {
     dynamic innerException,
-  }) {
-    throw WrongHttpResponseDataException(
-      "Wrong HTTP response on ${requestType.toString().split(".")[1]} request\n"
-      "$innerException\n"
-      " response data: $httpResponseData",
-      httpResponseData,
-    );
-  }
-}
-
-enum ClientType {
-  siteGT, // t
-  extensionGT, // gtx (blocking ip sometimes)
-}
-enum RequestType {
-  translation,
-  alternativeTranslation,
-  synonym,
-  definition,
-  example,
+  }) =>
+      throw WrongHttpResponseDataException(
+        "Wrong HTTP response on ${requestType.name} request\n"
+        "$innerException\n",
+        httpResponseData,
+      );
 }

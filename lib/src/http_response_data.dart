@@ -1,5 +1,3 @@
-part of google_transl;
-
 class HttpResponseData {
   final dynamic jsonData;
   final Uri requestUrl;
@@ -16,11 +14,9 @@ class HttpResponseData {
   });
 
   @override
-  String toString() {
-    return "{\n   jsonData: $jsonData,\n"
-        "   requestUrl: $requestUrl,\n"
-        "   sourceText: $sourceText,\n"
-        "   sourceLanguage: $sourceLanguage,\n"
-        "   targetLanguage: $targetLanguage,  }";
-  }
+  String toString() => "{\n   jsonData: $jsonData,\n"
+      "   requestUrl: $requestUrl,\n"
+      "   sourceText: $sourceText,\n"
+      "   sourceLanguage: $sourceLanguage,\n"
+      "   targetLanguage: $targetLanguage,  }";
 }

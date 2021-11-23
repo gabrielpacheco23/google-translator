@@ -1,3 +1,3 @@
-abstract class TokenProvider {
+abstract class ITokenProvider {
   String generateToken(String text);
 }

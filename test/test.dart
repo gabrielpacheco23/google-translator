@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import "package:test/test.dart";
+import 'package:translator/src/enums/client_type.dart';
 import 'package:translator/translator.dart';
+
+const _unorderedCollectionEquality = DeepCollectionEquality.unordered();
 
 void main() {
   GoogleTranslator translator = GoogleTranslator();
@@ -59,7 +62,7 @@ void main() {
   });
 
   test('Translation from English to Russian, from AUTO to Russian', () async {
-    const expected = 'хорошо';
+    const expected = 'хороший';
 
     final englishToRussian =
         await translator.getTranslation('good', from: 'en', to: 'ru');
@@ -75,10 +78,10 @@ void main() {
 
     final englishToRussian =
         await translator.getAltTranslation('bad', from: 'en', to: 'ru');
-    expect(englishToRussian.translations, expected);
+    _expectListsEqual(englishToRussian.translations, expected);
 
     final autoToRussian = await translator.getAltTranslation('bad', to: 'ru');
-    expect(autoToRussian.translations, expected);
+    _expectListsEqual(autoToRussian.translations, expected);
   });
 
   test('Synonyms from AUTO, from English ', () async {
@@ -106,17 +109,12 @@ void main() {
       'those who could afford to buy showed little taste or <b>discrimination</b>'
     ];
 
-    const unorderedCollectionEquality = DeepCollectionEquality.unordered();
-
     final englishResponse =
         await translator.getExamples('discrimination', from: 'en');
-    expect(
-        unorderedCollectionEquality.equals(englishResponse.examples, expected),
-        true);
+    _expectListsEqual(englishResponse.examples, expected);
 
     final autoResponse = await translator.getExamples('discrimination');
-    expect(unorderedCollectionEquality.equals(autoResponse.examples, expected),
-        true);
+    _expectListsEqual(autoResponse.examples, expected);
   });
 
   test('Definitions from English to English, AUTO to English, AUTO to AUTO',
@@ -161,4 +159,9 @@ void main() {
     final autoToRussian = await translator.getDefinition('dad', to: 'ru');
     expect(autoToRussian.definitions, expected);
   });
+}
+
+_expectListsEqual(List actual, List expected) {
+  if (!_unorderedCollectionEquality.equals(actual, expected))
+    expect(actual, expected);
 }

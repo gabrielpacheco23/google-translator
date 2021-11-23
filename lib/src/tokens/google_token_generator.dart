@@ -1,4 +1,4 @@
-import './token_provider_interface.dart';
+import './i_token_provider.dart';
 
 ///
 ///  This class generates a token passed in google translate api URL
@@ -7,7 +7,7 @@ import './token_provider_interface.dart';
 /// [author] Gabriel N. Pacheco
 ///
 
-class GoogleTokenGenerator implements TokenProvider {
+class GoogleTokenGenerator implements ITokenProvider {
   /// Generate and return a token
   @override
   String generateToken(String text) {
