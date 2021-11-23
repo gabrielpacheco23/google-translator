@@ -75,10 +75,10 @@ void main() {
 
     final englishToRussian =
         await translator.getAltTranslation('bad', from: 'en', to: 'ru');
-    expect(englishToRussian.words, expected);
+    expect(englishToRussian.translations, expected);
 
     final autoToRussian = await translator.getAltTranslation('bad', to: 'ru');
-    expect(autoToRussian.words, expected);
+    expect(autoToRussian.translations, expected);
   });
 
   test('Synonyms from AUTO, from English ', () async {

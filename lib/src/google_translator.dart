@@ -94,12 +94,13 @@ class GoogleTranslator {
     final HttpResponseData httpResponseData =
         await _getData(sourceText, from, to: to, dataType: 'at');
     final jsonData = httpResponseData.jsonData;
-    final List<String> words = [];
+    final List<String> translations = [];
     try {
       final indexedData =
           jsonData[_map[RequestType.alternativeTranslation]][0][2];
       for (final i in indexedData) {
-        words.add(i[0] as String);
+        final translation = i[0] as String;
+        if (!translations.contains(translation)) translations.add(translation);
       }
     } catch (e) {
       _throwException(
@@ -110,7 +111,7 @@ class GoogleTranslator {
     }
 
     return AlternativeTranslation(
-      words,
+      translations,
       source: sourceText,
       sourceLanguage: _languageList[from],
       targetLanguage: _languageList[to],
