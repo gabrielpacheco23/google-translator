@@ -1,9 +1,8 @@
 library google_transl;
 
 import 'dart:async';
-import 'dart:convert' show jsonDecode;
-
-import 'package:http/http.dart' as http;
+import 'dart:convert' show jsonDecode, jsonEncode, utf8;
+import 'dart:io';
 
 import './langs/language.dart';
 import './tokens/google_token_generator.dart';
@@ -30,12 +29,12 @@ part './model/translation.dart';
 ///
 class GoogleTranslator {
   // faster than translate.google.com
-  static const String defaultBaseUrl = 'translate.googleapis.com';
-  static const String alternativeBaseUrl = 'translate.google.com';
+  static const String defaultServerHost = 'translate.googleapis.com';
+  static const String alternativeServerHost = 'translate.google.com';
 
   static const String autoLanguage = 'auto';
 
-  final String baseUrl;
+  final String serverHost;
   final ClientType clientType;
 
   static const _map = {
@@ -46,8 +45,8 @@ class GoogleTranslator {
     RequestType.example: 13,
   };
 
-  static const String _path = '/translate_a/single';
-  static const _pronouncePath = '/translate_tts';
+  static const String _translationUrlPath = '/translate_a/single';
+  static const _pronounceUrlPath = '/translate_tts';
   static const List<String> _dataTypes = ['ex', 'ss', 'md', 'at', 't'];
 
   final _tokenProvider = GoogleTokenGenerator();
@@ -55,7 +54,7 @@ class GoogleTranslator {
 
   /// allow to set base URL since for countries the default URL doesn't work
   GoogleTranslator({
-    this.baseUrl = defaultBaseUrl,
+    this.serverHost = defaultServerHost,
     this.clientType = ClientType.siteGT,
   });
 
@@ -228,58 +227,43 @@ class GoogleTranslator {
     String sourceText, {
     String from = autoLanguage,
     required String to,
-  }) async {
-    final Map<String, String> parameters =
-        await _getParameters(sourceText, from, to: to);
-
-    return Uri.https(baseUrl, _pronouncePath, parameters);
-  }
+  }) async =>
+      Uri.https(
+        serverHost,
+        _pronounceUrlPath,
+        await _getParameters(sourceText, from, to: to),
+      );
 
   Future<HttpResponseData> _getData(
     String sourceText,
     String from, {
     String? to,
     String? dataType,
+  }) async =>
+      _call(
+        'GET',
+        (String responseBody, Uri uri) => HttpResponseData(
+          jsonData: jsonDecode(responseBody),
+          requestUrl: uri,
+          sourceText: sourceText,
+          sourceLanguage: _languageList[from].name,
+          targetLanguage: to == null ? null : _languageList[to].name,
+        ),
+        urlPath: _translationUrlPath,
+        queryParameters: await _getParameters(
+          sourceText,
+          from,
+          to: to,
+          dataType: dataType,
+        ),
+      );
+
+  Future<Map<String, String>> _getParameters(
+    String sourceText,
+    String from, {
+    String? to,
+    String? dataType,
   }) async {
-    final Map<String, String> parameters = await _getParameters(
-      sourceText,
-      from,
-      to: to,
-      dataType: dataType,
-    );
-
-    final uri = Uri.https(baseUrl, _path, parameters);
-    http.Response response;
-    try {
-      response = await http.get(uri);
-    } catch (e, stacktrace) {
-      throw GoogleTranslatorException(
-        "HTTP Get failed\n"
-        "  request URI: $uri\n"
-        "  error message: $e\n"
-        "$stacktrace",
-      );
-    }
-    if (response.statusCode != 200) {
-      throw http.ClientException(
-        'Error ${response.statusCode}: ${response.body}',
-        uri,
-      );
-    }
-
-    final jsonData = jsonDecode(response.body);
-
-    return HttpResponseData(
-      jsonData: jsonData,
-      requestUrl: uri,
-      sourceText: sourceText,
-      sourceLanguage: _languageList[from].name,
-      targetLanguage: to == null ? null : _languageList[to].name,
-    );
-  }
-
-  Future<Map<String, String>> _getParameters(String sourceText, String from,
-      {String? to, String? dataType}) async {
     if (!LanguageList.contains(from)) {
       throw LanguageNotSupportedException(from);
     }
@@ -322,6 +306,40 @@ class GoogleTranslator {
     }
 
     return parameters;
+  }
+
+  Future<T> _call<T>(
+    String method,
+    T Function(String, Uri) convert, {
+    required String urlPath,
+    Object? payLoad,
+    Map<String, String>? queryParameters,
+  }) async {
+    final client = HttpClient();
+
+    queryParameters?.removeWhere((key, value) => value == 'null');
+
+    final uri = Uri.https(serverHost, urlPath, queryParameters);
+    print('$uri');
+    return client.openUrl(method, uri).then((request) {
+      if (payLoad != null) request.write(jsonEncode(payLoad));
+
+      return request.close();
+    }).then((response) {
+      switch (response.statusCode) {
+        case 200:
+          final completer = Completer<String>();
+          final contents = StringBuffer();
+          response.transform(utf8.decoder).listen(
+              (data) => contents.write(data),
+              onDone: () => completer.complete(contents.toString()));
+          return completer.future;
+        default:
+          print('$uri: ${response.statusCode} ${response.reasonPhrase}');
+          throw GoogleTranslatorException(
+              '$serverHost returned ${response.statusCode} ${response.reasonPhrase}');
+      }
+    }).then((responseBody) => convert(responseBody, uri));
   }
 
   void _throwBadDataException(

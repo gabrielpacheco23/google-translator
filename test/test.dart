@@ -15,7 +15,7 @@ void main() {
   });
 
   test("Allow to pass a custom translator URL", () async {
-    translator = GoogleTranslator(baseUrl: 'translate.google.cn');
+    translator = GoogleTranslator(serverHost: 'translate.google.cn');
     final t = await translator.getTranslation('friendship', to: 'es');
     expect(t.toString(), 'amistad');
   });
