@@ -136,7 +136,7 @@ class LanguageList {
     'ts': 'Tsonga',
     'tr': 'Turkish',
     'tk': 'Turkmen',
-    'ak': 'Twi (Akan)'
+    'ak': 'Twi (Akan)',
     'uk': 'Ukrainian',
     'ur': 'Urdu',
     'ug': 'Uyghur',
