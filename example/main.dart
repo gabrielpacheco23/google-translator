@@ -16,8 +16,8 @@ void main() async {
   // You can also call the extension method directly on the input
   print('Translated: ${await input.translate(to: 'en')}');
 
-  // For countries that default base URL doesn't work
-  translator.baseUrl = "translate.google.cn";
+  // You can also replace the default base URL for countries where the default one doesn't work
+  translator.baseUrl = "translate.google.com.hk";
   translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
   //prints 这意味着用中文'测试'
 
