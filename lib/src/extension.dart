@@ -1,4 +1,4 @@
-import 'package:translator/src/google_translator.dart';
+import 'package:google_translator/src/google_translator.dart';
 
 extension StringExtension on String {
   Future<Translation> translate(
