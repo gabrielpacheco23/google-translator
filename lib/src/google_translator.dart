@@ -2,7 +2,6 @@ library google_transl;
 
 import 'dart:async';
 import 'dart:convert' show jsonDecode;
-import 'dart:js_interop';
 import 'package:http/http.dart' as http;
 import './tokens/google_token_gen.dart';
 import './langs/language.dart';
@@ -23,7 +22,7 @@ class GoogleTranslator {
   final http.Client httpClient;
 
   GoogleTranslator({this.client = ClientType.siteGT, http.Client? httpClientArg})
-  : httpClient = httpClientArg.isNull ? http.Client() : httpClientArg!;
+  : httpClient = httpClientArg == null ? http.Client() : httpClientArg;
 
   /// Translates texts from specified language to another
   Future<Translation> translate(String sourceText,
