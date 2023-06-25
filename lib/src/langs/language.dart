@@ -155,7 +155,7 @@ class LanguageList {
     
     } else if (_langs.containsValue(codeOrLang.onlyCapitalizeFirstLetter())) {
       return Language(
-        _langs.keys.firstWhere((e) => e == codeOrLang.onlyCapitalizeFirstLetter()),
+        _langs.keys.singleWhere((element) => _langs[element] == codeOrLang.onlyCapitalizeFirstLetter()),
         codeOrLang.onlyCapitalizeFirstLetter()
       );
     }
