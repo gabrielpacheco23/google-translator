@@ -153,10 +153,10 @@ class LanguageList {
     if (_langs.containsKey(codeOrLang.toLowerCase())) {
       return Language(codeOrLang, _langs[codeOrLang]!);
     
-    } else if (_langs.containsKey(codeOrLang.capitalizeOnlyFirstLetter())) {
+    } else if (_langs.containsValue(codeOrLang.onlyCapitalizeFirstLetter())) {
       return Language(
-        _langs.keys.firstWhere((e) => e == codeOrLang.capitalizeOnlyFirstLetter()),
-        codeOrLang.capitalizeOnlyFirstLetter()
+        _langs.keys.firstWhere((e) => e == codeOrLang.onlyCapitalizeFirstLetter()),
+        codeOrLang.onlyCapitalizeFirstLetter()
       );
     }
 
@@ -165,7 +165,7 @@ class LanguageList {
 
   static bool contains(String codeOrLang) {
     if (_langs.containsKey(codeOrLang) ||
-        _langs.containsValue(codeOrLang.capitalizeOnlyFirstLetter())) {
+        _langs.containsValue(codeOrLang.onlyCapitalizeFirstLetter())) {
       return true;
     }
     return false;
@@ -178,8 +178,8 @@ class LanguageNotSupportedException implements Exception {
       : msg = '$lang is not a supported language.';
 }
 
-extension _CapitalizeOnlyFirstLetter on String {
-  String capitalizeOnlyFirstLetter() {
+extension _OnlyCapitalizeFirstLetter on String {
+  String onlyCapitalizeFirstLetter() {
     return '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
   }
 }
