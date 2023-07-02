@@ -77,8 +77,8 @@ class GoogleTokenGenerator implements TokenProvider {
         d = 'a'.codeUnitAt(0) <= d.toString().codeUnitAt(0)
             ? (d[0].toString().codeUnitAt(0)) - 87
             : int.parse(d);
-        d = '+' == b[c + 1] ? unsignedRightShift(a, d) : a << d;
-        a = '+' == b[c] ? (a + (d as int) & 4294967295) : a ^ d;
+        d = '+' == b[c + 1] ? unsignedRightShift(a, d) : int.parse(a.toString()) << d;
+        a = '+' == b[c] ? (int.parse(a.toString()) + (d as int) & 4294967295) : a ^ d;
       }
       return a;
     } on Error {
