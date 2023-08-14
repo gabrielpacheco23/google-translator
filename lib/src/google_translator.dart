@@ -47,38 +47,46 @@ class GoogleTranslator {
       'q': sourceText
     };
 
-    var url = Uri.https(_baseUrl, _path, parameters);
-    final data = await http.get(url);
+    var _client = http.Client();
 
-    if (data.statusCode != 200) {
-      throw http.ClientException('Error ${data.statusCode}: ${data.body}', url);
-    }
+    try {
+      var url = Uri.https(_baseUrl, _path, parameters);
+      final data = await _client.get(url);
 
-    final jsonData = jsonDecode(data.body);
-    if (jsonData == null) {
-      throw http.ClientException('Error: Can\'t parse json data');
-    }
-
-    final sb = StringBuffer();
-
-    for (var c = 0; c < jsonData[0].length; c++) {
-      sb.write(jsonData[0][c][0]);
-    }
-
-    if (from == 'auto' && from != to) {
-      from = jsonData[2] ?? from;
-      if (from == to) {
-        from = 'auto';
+      if (data.statusCode != 200) {
+        throw http.ClientException(
+            'Error ${data.statusCode}: ${data.body}', url);
       }
-    }
 
-    final translated = sb.toString();
-    return _Translation(
-      translated,
-      source: sourceText,
-      sourceLanguage: _languageList[from],
-      targetLanguage: _languageList[to],
-    );
+      final jsonData = jsonDecode(data.body);
+
+      if (jsonData == null) {
+        throw http.ClientException('Error: Can\'t parse json data');
+      }
+
+      final sb = StringBuffer();
+
+      for (var c = 0; c < jsonData[0].length; c++) {
+        sb.write(jsonData[0][c][0]);
+      }
+
+      if (from == 'auto' && from != to) {
+        from = jsonData[2] ?? from;
+        if (from == to) {
+          from = 'auto';
+        }
+      }
+
+      final translated = sb.toString();
+      return _Translation(
+        translated,
+        source: sourceText,
+        sourceLanguage: _languageList[from],
+        targetLanguage: _languageList[to],
+      );
+    } finally {
+      _client.close();
+    }
   }
 
   /// Translates and prints directly
