@@ -13,9 +13,6 @@ void main() async {
   var translation = await translator
       .translate("I would buy a car, if I had money.", from: 'en', to: 'it');
 
-  // You can also call the extension method directly on the input
-  print('Translated: ${await input.translate(to: 'en')}');
-
   // You can also replace the default base URL for countries where the default one doesn't work
   translator.baseUrl = "translate.google.com.hk";
   translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
