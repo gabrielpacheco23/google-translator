@@ -149,17 +149,23 @@ class LanguageList {
     'zu': 'Zulu'
   };
 
-  Language operator [](String code) {
-    code = code.toLowerCase();
-    if (_langs.containsKey(code)) {
-      return Language(code, _langs[code]!);
+  Language operator [](String codeOrLang) {
+    if (_langs.containsKey(codeOrLang.toLowerCase())) {
+      return Language(codeOrLang, _langs[codeOrLang]!);
+    
+    } else if (_langs.containsValue(codeOrLang.onlyCapitalizeFirstLetter())) {
+      return Language(
+        _langs.keys.singleWhere((element) => _langs[element] == codeOrLang.onlyCapitalizeFirstLetter()),
+        codeOrLang.onlyCapitalizeFirstLetter()
+      );
     }
-    throw LanguageNotSupportedException('$code is not a supported language.');
+
+    throw LanguageNotSupportedException('$codeOrLang is not a supported language.');
   }
 
   static bool contains(String codeOrLang) {
     if (_langs.containsKey(codeOrLang) ||
-        _langs.containsValue(codeOrLang.toCamelCase())) {
+        _langs.containsValue(codeOrLang.onlyCapitalizeFirstLetter())) {
       return true;
     }
     return false;
@@ -172,8 +178,8 @@ class LanguageNotSupportedException implements Exception {
       : msg = '$lang is not a supported language.';
 }
 
-extension _CamelCase on String {
-  String toCamelCase() {
+extension _OnlyCapitalizeFirstLetter on String {
+  String onlyCapitalizeFirstLetter() {
     return '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
   }
 }

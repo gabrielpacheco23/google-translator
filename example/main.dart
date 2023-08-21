@@ -1,4 +1,4 @@
-import 'package:translator/translator.dart';
+import 'package:google_translator/translator.dart';
 
 void main() async {
   final translator = GoogleTranslator();

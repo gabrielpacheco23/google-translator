@@ -19,8 +19,10 @@ class GoogleTranslator {
   final _tokenProvider = GoogleTokenGenerator();
   final _languageList = LanguageList();
   final ClientType client;
+  final http.Client httpClient;
 
-  GoogleTranslator({this.client = ClientType.siteGT});
+  GoogleTranslator({this.client = ClientType.siteGT, http.Client? httpClientArg})
+  : httpClient = httpClientArg == null ? http.Client() : httpClientArg;
 
   /// Translates texts from specified language to another
   Future<Translation> translate(String sourceText,
@@ -48,7 +50,7 @@ class GoogleTranslator {
     };
 
     var url = Uri.https(_baseUrl, _path, parameters);
-    final data = await http.get(url);
+    final data = await httpClient.get(url);
 
     if (data.statusCode != 200) {
       throw http.ClientException('Error ${data.statusCode}: ${data.body}', url);

@@ -1,6 +1,6 @@
 import "package:test/test.dart";
-import 'package:translator/src/langs/language.dart';
-import 'package:translator/translator.dart';
+import 'package:google_translator/src/langs/language.dart';
+import 'package:google_translator/translator.dart';
 
 void main() {
   test("Conection test: Is Google Translate API working?", () async {
