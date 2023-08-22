@@ -1,4 +1,7 @@
 # Releases
+# 1.0.0
+- Support http ^1.1.0
+
 # 0.1.7
 - Support Uyghur (ug) language
 
