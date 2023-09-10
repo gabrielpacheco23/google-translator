@@ -94,7 +94,7 @@ class LanguageList {
     'mt': 'Maltese',
     'mi': 'Maori',
     'mr': 'Marathi',
-    'mni': 'Meiteilon (Manipuri)',
+    'mni-mtei': 'Meiteilon (Manipuri)',
     'lus': 'Mizo',
     'mn': 'Mongolian',
     'my': 'Myanmar (Burmese)',
