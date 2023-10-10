@@ -1,18 +1,16 @@
 library google_transl;
 
 import 'dart:async';
-import 'dart:convert' show jsonDecode;
-import 'package:http/http.dart' as http;
+import 'dart:convert' show jsonDecode, utf8;
+import 'dart:io';
 import './tokens/google_token_gen.dart';
 import './langs/language.dart';
 
 part './model/translation.dart';
 
-///
 /// This library is a Dart implementation of Google Translate API
 ///
 /// [author] Gabriel N. Pacheco.
-///
 class GoogleTranslator {
   var _baseUrl = 'translate.googleapis.com'; // faster than translate.google.com
   final _path = '/translate_a/single';
@@ -47,21 +45,23 @@ class GoogleTranslator {
       'q': sourceText
     };
 
-    var _client = http.Client();
+    var _client = HttpClient();
 
     try {
       var url = Uri.https(_baseUrl, _path, parameters);
-      final data = await _client.get(url);
+      final request = await _client.getUrl(url);
+      final response = await request.close();
+      final responseBody = await response.transform(utf8.decoder).join();
 
-      if (data.statusCode != 200) {
-        throw http.ClientException(
-            'Error ${data.statusCode}: ${data.body}', url);
+      if (response.statusCode != 200) {
+        throw HttpException('Error ${response.statusCode}: $responseBody',
+            uri: url);
       }
 
-      final jsonData = jsonDecode(data.body);
+      final jsonData = jsonDecode(responseBody);
 
       if (jsonData == null) {
-        throw http.ClientException('Error: Can\'t parse json data');
+        throw HttpException('Error: Can\'t parse json data');
       }
 
       final sb = StringBuffer();
