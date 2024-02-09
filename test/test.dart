@@ -11,7 +11,7 @@ void main() {
 
   test("Changing the base URL", () async {
     var translator = GoogleTranslator();
-    translator.baseUrl = 'translate.google.cn';
+    translator.baseUrl = 'translate.google.com.hk';
     var transl = await translator.translate('friendship', to: 'es');
     expect(transl.toString(), 'amistad');
   });
@@ -26,7 +26,7 @@ void main() {
   test("Get the 'GT buggy' auto detected language", () async {
     var translator = GoogleTranslator();
     var translation = await translator.translate('Translation', to: 'pt');
-    expect(translation.sourceLanguage.toString(), 'Automatic');
+    expect(translation.sourceLanguage.toString(), 'English');
   });
 
   test('GTX client', () async {

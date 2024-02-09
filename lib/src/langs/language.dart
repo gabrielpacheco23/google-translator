@@ -43,7 +43,7 @@ class LanguageList {
     'eo': 'Esperanto',
     'et': 'Estonian',
     'ee': 'Ewe',
-    'tl': 'Filipino (Tagalog)',
+    'fil': 'Filipino (Tagalog)',
     'fi': 'Finnish',
     'fr': 'French',
     'fy': 'Frisian',
@@ -56,7 +56,7 @@ class LanguageList {
     'ht': 'Haitian Creole',
     'ha': 'Hausa',
     'haw': 'Hawaiian',
-    'iw': 'Hebrew',
+    'he': 'Hebrew',
     'hi': 'Hindi',
     'hmn': 'Hmong',
     'hu': 'Hungarian',
@@ -67,7 +67,7 @@ class LanguageList {
     'ga': 'Irish',
     'it': 'Italian',
     'ja': 'Japanese',
-    'jw': 'Javanese',
+    'jv': 'Javanese',
     'kn': 'Kannada',
     'kk': 'Kazakh',
     'km': 'Khmer',
@@ -81,11 +81,11 @@ class LanguageList {
     'lo': 'Lao',
     'la': 'Latin',
     'lv': 'Latvian',
+    'ln': 'Lingala',
     'lt': 'Lithuanian',
     'lg': 'Luganda',
     'lb': 'Luxembourgish',
     'mk': 'Macedonian',
-    'mg': 'Malagasy',
     'mai': 'Maithili',
     'mg': 'Malagasy',
     'ms': 'Malay',
@@ -146,7 +146,7 @@ class LanguageList {
     'xh': 'Xhosa',
     'yi': 'Yiddish',
     'yo': 'Yoruba',
-    'zu': 'Zulu'
+    'zu': 'Zulu',
   };
 
   Language operator [](String code) {
