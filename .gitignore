@@ -16,7 +16,7 @@ doc/api/
 bin/main.dart
 .idea
 .vscode
-translator.iml
+#translator.iml
 
 # uml
 uml.txt
