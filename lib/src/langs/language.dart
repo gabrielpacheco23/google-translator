@@ -167,11 +167,10 @@ class LanguageList {
     }
     return false;
   }
-}
-
  List<Language> getLanguages() {
     return  _langs.entries.map((entry)=> Language.fromJson(entry)).toList();
   }
+}
 
 class LanguageNotSupportedException implements Exception {
   final String msg;
