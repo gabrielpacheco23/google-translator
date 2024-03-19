@@ -74,6 +74,15 @@ There is **translateAndPrint** method that prints directly
 translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 // prints 这意味着用中文'测试'
 ```
+
+&nbsp;
+
+There is **getLanguages()** method that returns List of supported languages and code
+```dart
+List<Language> languageList = LanguageList().getLanguages();
+```
+
+
 &nbsp;
 
 # API

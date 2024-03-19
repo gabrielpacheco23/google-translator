@@ -7,6 +7,9 @@ class Language {
 
   @override
   String toString() => name;
+  factory Language.fromJson(MapEntry<String, String> json) {
+    return Language(json.key, json.value);
+  }
 }
 
 /// Language list containing all languages supported by Google Translate API
@@ -163,6 +166,9 @@ class LanguageList {
       return true;
     }
     return false;
+  }
+ List<Language> getLanguages() {
+    return  _langs.entries.map((entry)=> Language.fromJson(entry)).toList();
   }
 }
 
