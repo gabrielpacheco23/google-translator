@@ -31,6 +31,17 @@ class GoogleTranslator {
       }
     }
 
+    if (sourceText == null || sourceText
+        .trim()
+        .isEmpty) {
+      return _Translation(
+        "",
+        source: sourceText,
+        sourceLanguage: _languageList[from],
+        targetLanguage: _languageList[to],
+      );
+    }
+    
     final parameters = {
       'client': client == ClientType.siteGT ? 't' : 'gtx',
       'sl': from,
