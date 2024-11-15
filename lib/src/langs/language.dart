@@ -56,7 +56,7 @@ class LanguageList {
     'ht': 'Haitian Creole',
     'ha': 'Hausa',
     'haw': 'Hawaiian',
-    'he': 'Hebrew',
+    'iw': 'Hebrew',
     'hi': 'Hindi',
     'hmn': 'Hmong',
     'hu': 'Hungarian',
