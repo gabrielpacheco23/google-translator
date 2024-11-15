@@ -1,4 +1,7 @@
 # Releases
+# 1.0.2
+- Fix language code for Hebrew
+
 # 1.0.1
 - Merge TranslatedText to the main branch
 
