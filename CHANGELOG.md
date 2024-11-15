@@ -1,4 +1,7 @@
 # Releases
+# 1.0.1
+- Merge TranslatedText to the main branch
+
 # 1.0.0
 - Support http ^1.1.0
 
