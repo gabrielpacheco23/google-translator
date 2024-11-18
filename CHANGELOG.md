@@ -1,4 +1,7 @@
 # Releases
+# 1.0.3
+- Separated TranslatedText to another library (translated_text) because of dependency conflicts
+
 # 1.0.2
 - Fix language code for Hebrew
 
