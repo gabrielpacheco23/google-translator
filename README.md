@@ -77,21 +77,7 @@ translator.translateAndPrint("This means 'testing' in chinese", to: 'zh-cn');
 &nbsp;
 
 ## TranslatedText Widget
-
-You can use the `TranslatedText` widget as a replacement for the `Text` widget to get the benefits of `translate()` method directly in the widget tree (UI Layer).
-
-```dart
-TranslatedText(
-  "Hello, World!",
-  loadingText: 'Loading...',
-  from: 'en',
-  to: 'ar',
-  style: TextStyle(fontSize: 20),
-)
-
-// prints مرحبا بالعالم!
-```
-&nbsp;
+Moved TranslatedText widget to https://github.com/gabrielpacheco23/translated_text
 
 # API
 For full API docs take a look at https://pub.dev/documentation/translator/latest/
