@@ -3,6 +3,7 @@ library google_transl;
 import 'dart:async';
 import 'dart:convert' show jsonDecode;
 import 'package:http/http.dart' as http;
+import 'package:translator/src/model/cloud_translation_api_dto.dart';
 import './tokens/google_token_gen.dart';
 import './langs/language.dart';
 
@@ -16,11 +17,13 @@ part './model/translation.dart';
 class GoogleTranslator {
   var _baseUrl = 'translate.googleapis.com'; // faster than translate.google.com
   final _path = '/translate_a/single';
+  final _withKeyPath = '/language/translate/v2';
   final _tokenProvider = GoogleTokenGenerator();
   final _languageList = LanguageList();
   final ClientType client;
+  String? apiKey;
 
-  GoogleTranslator({this.client = ClientType.siteGT});
+  GoogleTranslator({this.client = ClientType.siteGT, this.apiKey});
 
   /// Translates texts from specified language to another
   Future<Translation> translate(String sourceText,
@@ -30,7 +33,50 @@ class GoogleTranslator {
         throw LanguageNotSupportedException(each);
       }
     }
+    Translation translation;
+    if (apiKey != null) {
+      translation = await _translateWithKey(sourceText, to);
+    } else {
+      translation = await _translateFree(sourceText, from, to);
+    }
+    return translation;
+  }
 
+  Future<Translation> _translateWithKey(String sourceText, String to) async {
+    final parameters = {
+      'target': to,
+      'key': apiKey,
+      'q': sourceText,
+    };
+
+    var url = Uri.https(_baseUrl, _withKeyPath, parameters);
+    final data = await http.get(url);
+
+    if (data.statusCode != 200) {
+      throw http.ClientException('Error ${data.statusCode}: ${data.body}', url);
+    }
+    final jsonData = jsonDecode(data.body);
+
+    if (jsonData == null ||
+        jsonData['data'] == null ||
+        jsonData['data']['translations'] == null) {
+      throw http.ClientException('Error: Can\'t parse json data');
+    }
+    CloudTranslationApiDto translationApiDto =
+        CloudTranslationApiDto.fromJson(jsonData);
+    var trans = translationApiDto.data!.translations![0];
+    return _Translation(
+      trans.translatedText ?? "",
+      source: sourceText,
+      sourceLanguage: _languageList['en'],
+      targetLanguage: trans.detectedSourceLanguage == null
+          ? _languageList[to]
+          : _languageList[trans.detectedSourceLanguage ?? to],
+    );
+  }
+
+  Future<Translation> _translateFree(
+      String sourceText, String from, String to) async {
     final parameters = {
       'client': client == ClientType.siteGT ? 't' : 'gtx',
       'sl': from,
