@@ -77,7 +77,7 @@ class LanguageList {
     "ee": "Ewe",
     "fo": "Faroese",
     "fj": "Fijian",
-    "tl": "Filipino",
+    "fil": "Filipino",
     "fi": "Finnish",
     "fon": "Fon",
     "fr": "French",
