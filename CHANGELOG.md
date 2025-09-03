@@ -1,4 +1,7 @@
 # Releases
+# 1.0.4
+- Support the Gaa language
+
 # 1.0.3+1
 - Updated README
 
