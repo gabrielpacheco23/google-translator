@@ -47,6 +47,7 @@ class LanguageList {
     'fi': 'Finnish',
     'fr': 'French',
     'fy': 'Frisian',
+    'gaa': 'Ga',
     'gl': 'Galician',
     'ka': 'Georgian',
     'de': 'German',
