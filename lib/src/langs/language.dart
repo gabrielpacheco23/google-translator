@@ -58,6 +58,7 @@ class LanguageList {
     'ha': 'Hausa',
     'haw': 'Hawaiian',
     'iw': 'Hebrew',
+    'he': 'Hebrew (standard)',
     'hi': 'Hindi',
     'hmn': 'Hmong',
     'hu': 'Hungarian',

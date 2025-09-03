@@ -1,4 +1,7 @@
 # Releases
+# 1.0.4+1
+- Add standard Hebrew (he) language code 
+
 # 1.0.4
 - Support the Gaa language
 
